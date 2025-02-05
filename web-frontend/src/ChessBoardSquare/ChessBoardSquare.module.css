@@ -1,0 +1,52 @@
+.container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+}
+
+.isSquareWhite {
+    background-color: #eeeed2;
+}
+
+.isSquareBlack {
+    background-color: #759656;
+}
+
+.isSquareWhite.isSource {
+    background-color: #bac949;
+}
+
+.isSquareBlack.isSource {
+    background-color: #bac949;
+}
+
+.fileLabel,
+.rankLabel {
+    font-size: 100%;
+    font-weight: 700;
+    position: absolute;
+    line-height: 1;
+}
+
+.isSquareWhite .fileLabel,
+.isSquareWhite .rankLabel {
+    color: #759656;
+}
+
+.isSquareBlack .fileLabel,
+.isSquareBlack .rankLabel {
+    color: #eeeed2;
+}
+
+.fileLabel {
+    top: 5%;
+    left: 5%;
+}
+
+.rankLabel {
+    bottom: 5%;
+    right: 5%;
+}
