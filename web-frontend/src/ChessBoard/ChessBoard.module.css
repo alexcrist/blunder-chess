@@ -1,13 +1,15 @@
 .container {
     display: flex;
-    width: min(90vw, 90vh);
-    height: min(90vw, 90vh);
-    border-radius: min(0.75vh, 0.75vw);
+    aspect-ratio: 1;
+    border-radius: 1.5%;
     box-shadow:
         0 10px 20px rgba(0, 0, 0, 0.19),
         0 6px 6px rgba(0, 0, 0, 0.23);
     flex-direction: column-reverse;
     overflow: hidden;
+    max-height: 70vh;
+    justify-self: center;
+    margin: 0 10px;
 }
 
 .row {

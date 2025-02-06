@@ -3,7 +3,34 @@
     width: 100vw;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background-color: #bbb;
+    justify-content: space-between;
+    background-color: #666;
+}
+
+.player {
+    font-size: 80%;
+    padding: 1% 2%;
+    border: 0.5vh solid #eee;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    font-weight: bold;
+    color: white;
+    margin: 5%;
+}
+
+.player1 {
+    background-color: #0000ffbb;
+}
+
+.player2 {
+    background-color: #ff0000bb;
+}
+
+.board {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-height: 85vh;
 }

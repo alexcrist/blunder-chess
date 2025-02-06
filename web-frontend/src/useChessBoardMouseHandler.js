@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import mainSlice from "./mainSlice";
 
@@ -17,11 +17,14 @@ export const useChessBoardMouseHandler = () => {
     const boardSquaresBounds = useSelector(
         (state) => state.main.boardSquaresBounds,
     );
+    const boardState = useSelector((state) => state.main.boardState);
 
     // Handle mouse down
+    const [isMouseDown, setIsMouseDown] = useState(false);
     const onMouseDown = useCallback(
         (event) => {
             return forwardMouseCoords(({ x, y }) => {
+                setIsMouseDown(true);
                 const coordinate = getCoordinateAtPosition(
                     x,
                     y,
@@ -35,8 +38,9 @@ export const useChessBoardMouseHandler = () => {
                 }
 
                 // No square had been selected yet
-                if (sourceCoordinate === null) {
+                if (sourceCoordinate === null && boardState[coordinate]) {
                     dispatch(mainSlice.actions.setSourceCoordinate(coordinate));
+                    dispatch(mainSlice.actions.setTargetCoordinate(coordinate));
                     return;
                 }
 
@@ -48,7 +52,6 @@ export const useChessBoardMouseHandler = () => {
 
                 // Different square was clicked (attempt move)
                 const move = { from: sourceCoordinate, to: coordinate };
-                console.log("move", move);
                 const isValidMove = getIsValidMove(move);
                 if (isValidMove) {
                     dispatch(mainSlice.actions.makeMove(move));
@@ -56,7 +59,7 @@ export const useChessBoardMouseHandler = () => {
                 dispatch(mainSlice.actions.setSourceCoordinate(null));
             })(event);
         },
-        [boardSquaresBounds, dispatch, sourceCoordinate],
+        [boardSquaresBounds, boardState, dispatch, sourceCoordinate],
     );
 
     // Handle mousemove
@@ -67,19 +70,23 @@ export const useChessBoardMouseHandler = () => {
                 y,
                 boardSquaresBounds,
             );
-            // dispatch(mainSlice.actions.setTargetCoordinate(coordinate));
+            if (isMouseDown && sourceCoordinate) {
+                dispatch(mainSlice.actions.setTargetCoordinate(coordinate));
+            }
         };
         return addMouseMoveListener(onMouseMove);
-    }, [boardSquaresBounds, dispatch]);
+    }, [boardSquaresBounds, dispatch, isMouseDown, sourceCoordinate]);
 
     // Handle mouseup
     useEffect(() => {
         const onMouseUp = ({ x, y }) => {
+            setIsMouseDown(false);
             const coordinate = getCoordinateAtPosition(
                 x,
                 y,
                 boardSquaresBounds,
             );
+            dispatch(mainSlice.actions.setTargetCoordinate(null));
             console.log("mouseup", coordinate);
             // if (!coordinate) {
             //     return;

@@ -14,7 +14,7 @@ const ChessBoardSquare = ({ coordinate }) => {
     const rankIndex = Number(rank) - 1;
 
     // Determine square color
-    const isSquareWhite = (fileIndex + rankIndex) % 2 === 0;
+    const isSquareWhite = (fileIndex + rankIndex) % 2 === 1;
     const isSquareBlack = !isSquareWhite;
 
     // Save square bounds

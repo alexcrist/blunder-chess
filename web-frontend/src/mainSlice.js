@@ -3,8 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const mainSlice = createSlice({
     name: "main",
     initialState: {
-        playerIndexTurn: 0,
-        pieceColorTurn: "w",
+        globalTurnIndex: 0,
         boardState: {
             a1: "wr",
             b1: "wn",
@@ -47,10 +46,9 @@ const mainSlice = createSlice({
     reducers: {
         makeMove: (state, action) => {
             const { from, to } = action.payload;
-            console.log("from", from);
-            console.log("to", to);
             state.boardState[to] = state.boardState[from];
             delete state.boardState[from];
+            state.globalTurnIndex++;
         },
         setBoardSquareBounds: (state, action) => {
             const { coordinate, bounds } = action.payload;
