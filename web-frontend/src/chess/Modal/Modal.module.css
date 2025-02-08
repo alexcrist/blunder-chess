@@ -1,0 +1,23 @@
+.container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    backdrop-filter: blur(4px);
+    background-color: #00000022;
+}
+
+.content {
+    z-index: 5;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 5px;
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.1),
+        0 3px 6px rgba(0, 0, 0, 0.13);
+}

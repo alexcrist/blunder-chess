@@ -46,6 +46,7 @@ const mainSlice = createSlice({
         isMouseDown: false,
         draggedPieceXY: null,
         possibleMoves: [],
+        isPromotingPawn: false,
         player1Name: "Player 1",
         player2Name: "Player 2",
     },
@@ -71,7 +72,23 @@ const mainSlice = createSlice({
             state.boardState[dest] = state.boardState[source];
             delete state.boardState[source];
             state.moveHistory.push(move);
+            const isPromotingPawn =
+                state.boardState[move.dest][1] === "p" &&
+                (move.dest[1] === "1" || move.dest[1] === "8");
+            if (isPromotingPawn) {
+                state.isPromotingPawn = true;
+            } else {
+                state.globalTurnIndex++;
+            }
+        },
+        promotePawn: (state, action) => {
+            const newPiece = action.payload;
+            const previousMove =
+                state.moveHistory[state.moveHistory.length - 1];
+            const coordinate = previousMove.dest;
+            state.boardState[coordinate] = newPiece;
             state.globalTurnIndex++;
+            state.isPromotingPawn = false;
         },
         setBoardSquareBounds: (state, action) => {
             const { coordinate, bounds } = action.payload;
