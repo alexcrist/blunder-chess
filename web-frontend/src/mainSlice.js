@@ -4,6 +4,7 @@ const mainSlice = createSlice({
     name: "main",
     initialState: {
         globalTurnIndex: 0,
+        boardSizePx: null,
         boardState: {
             a1: "wr",
             b1: "wn",
@@ -39,15 +40,36 @@ const mainSlice = createSlice({
             h8: "br",
         },
         boardSquaresBounds: {},
+        moveHistory: [],
+        hasBlackKingMoved: false,
+        hasWhiteKingMoved: false,
         sourceCoordinate: null,
-        targetCoordinate: null,
-        wasSourceDropped: null,
+        hoveredCoordinate: null,
+        isMouseDown: false,
+        draggedPieceXY: null,
+        possibleMoves: [],
+        player1Name: "Player 1",
+        player2Name: "Player 2",
     },
     reducers: {
+        setBoardSizePx: (state, action) => {
+            state.boardSizePx = action.payload;
+        },
         makeMove: (state, action) => {
-            const { from, to } = action.payload;
-            state.boardState[to] = state.boardState[from];
-            delete state.boardState[from];
+            const move = action.payload;
+            const { source, dest } = move;
+            const sourcePiece = state.boardState[source];
+            const [pieceColor, pieceType] = sourcePiece;
+            if (pieceType === "k") {
+                if (pieceColor === "w") {
+                    state.hasBlackKingMoved = true;
+                } else {
+                    state.hasBlackKingMoved = true;
+                }
+            }
+            state.boardState[dest] = state.boardState[source];
+            delete state.boardState[source];
+            state.moveHistory.push(move);
             state.globalTurnIndex++;
         },
         setBoardSquareBounds: (state, action) => {
@@ -57,11 +79,17 @@ const mainSlice = createSlice({
         setSourceCoordinate: (state, action) => {
             state.sourceCoordinate = action.payload;
         },
-        setTargetCoordinate: (state, action) => {
-            state.targetCoordinate = action.payload;
+        setIsMouseDown: (state, action) => {
+            state.isMouseDown = action.payload;
         },
-        setWasSourceDropped: (state, action) => {
-            state.wasSourceDropped = action.payload;
+        setDraggedPieceXY: (state, action) => {
+            state.draggedPieceXY = action.payload;
+        },
+        setHoveredCoordinate: (state, action) => {
+            state.hoveredCoordinate = action.payload;
+        },
+        setPossibleMoves: (state, action) => {
+            state.possibleMoves = action.payload;
         },
     },
 });

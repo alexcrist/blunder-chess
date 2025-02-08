@@ -1,6 +1,6 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import { useSelector } from "react-redux";
-import { getTurn } from "../getTurn";
+import { getTurn } from "../../getTurn";
 import styles from "./TurnIndicator.module.css";
 
 const TurnIndicator = () => {
@@ -17,7 +17,7 @@ const TurnIndicator = () => {
                     const [player, color] = turn;
                     return (
                         <div
-                            className={classnames(
+                            className={classNames(
                                 styles.turn,
                                 styles[`player${player}`],
                                 {
@@ -30,7 +30,7 @@ const TurnIndicator = () => {
                                 Player&nbsp;{player}
                             </div>
                             <div
-                                className={classnames(
+                                className={classNames(
                                     styles.color,
                                     styles[`color${color.toUpperCase()}`],
                                 )}

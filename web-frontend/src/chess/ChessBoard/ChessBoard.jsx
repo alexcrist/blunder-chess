@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import { useSelector } from "react-redux";
 import ChessBoardSquare from "../ChessBoardSquare/ChessBoardSquare";
+import { useCalculatePossibleMoves } from "../useCalculatePossibleMoves";
 import { useChessBoardMouseHandler } from "../useChessBoardMouseHandler";
 import styles from "./ChessBoard.module.css";
 
 const ChessBoard = () => {
-    // Calculate board square coordinates
+    // Calculate board square coordinates (a1, b1, etc.)
     const coordinates = useMemo(() => {
         const coordinates = [];
         for (let rankIndex = 0; rankIndex < 8; rankIndex++) {
@@ -20,14 +22,21 @@ const ChessBoard = () => {
         return coordinates;
     }, []);
 
-    // Handle mouse interactions
-    const onMouseDown = useChessBoardMouseHandler();
+    // Get board size
+    const boardSizePx = useSelector((state) => state.main.boardSizePx) ?? 0;
+
+    // Handle mouse events
+    const containerRef = useRef(null);
+    useChessBoardMouseHandler(containerRef);
+
+    // Calculate possible moves
+    useCalculatePossibleMoves();
 
     return (
         <div
+            ref={containerRef}
             className={styles.container}
-            onMouseDown={onMouseDown}
-            onTouchStart={onMouseDown}
+            style={{ width: `${boardSizePx}px`, height: `${boardSizePx}px` }}
         >
             {coordinates.map((row, rowIndex) => {
                 return (

@@ -1,0 +1,53 @@
+.container {
+    height: 100dvh;
+    width: 100dvw;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #444;
+    overscroll-behavior: contain;
+}
+
+.player {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+}
+
+.color {
+    height: 15px;
+    width: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 2px;
+    border: 1px solid white;
+}
+
+.player1 .color {
+    background-color: blue;
+}
+
+.player2 .color {
+    background-color: red;
+}
+
+.boardContainer {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    max-width: 70dvh;
+    width: 100vw;
+    flex: 1;
+}
+
+.turn {
+    font-size: 14px;
+    font-style: italic;
+    margin-left: 10px;
+    font-weight: normal;
+}

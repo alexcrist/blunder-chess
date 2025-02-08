@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: hidden;
+    justify-self: center;
+}
+
+.row {
+    display: flex;
+    flex: 1;
+}
+
+.container * {
+    touch-action: none;
+}

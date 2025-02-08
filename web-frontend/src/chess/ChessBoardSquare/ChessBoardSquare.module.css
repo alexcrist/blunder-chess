@@ -15,24 +15,18 @@
     background-color: #759656;
 }
 
-.isSquareWhite.isSource {
+.isSquareWhite.isHighlighted {
     background-color: #bac949;
 }
 
-.isSquareBlack.isSource {
+.isSquareBlack.isHighlighted {
     background-color: #bac949;
 }
-
-/* .isTarget {
-    box-shadow: inset 0px 0px 0px 4px #fff;
-} */
 
 .fileLabel,
 .rankLabel {
-    font-size: 10%;
     font-weight: 700;
     position: absolute;
-    line-height: 1;
 }
 
 .isSquareWhite .fileLabel,
@@ -46,11 +40,32 @@
 }
 
 .fileLabel {
-    top: 5%;
-    left: 5%;
+    top: 0;
+    left: 0;
 }
 
 .rankLabel {
-    bottom: 5%;
-    right: 5%;
+    bottom: 0;
+    right: 0;
+}
+
+.hoverCircle {
+    z-index: 2;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #00000033;
+}
+
+.possibleMove {
+    z-index: 2;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #00000033;
+}
+
+.possibleMoveOccupied {
+    z-index: 2;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #00000033;
 }
