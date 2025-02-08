@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTurn } from "../getTurn";
 import mainSlice from "../mainSlice";
@@ -92,12 +92,28 @@ export const useChessBoardMouseHandler = (containerRef) => {
                 }
 
                 // A piece was selected and a new square was touched and the proposed
-                // move is invalid and the new square does contain a piece
+                // move is invalid and the new square does contain a piece but that
+                // piece is not the color of the current turn
                 if (
                     sourceCoordinate &&
                     coordinate &&
                     boardState[coordinate] &&
-                    !isValidMove
+                    !isValidMove &&
+                    !isSourcePieceColorCorrect
+                ) {
+                    dispatch(mainSlice.actions.setSourceCoordinate(null));
+                    return;
+                }
+
+                // A piece was selected and a new square was touched and the proposed
+                // move is invalid and the new square does contain a piece and that
+                // piece is the color of the current turn
+                if (
+                    sourceCoordinate &&
+                    coordinate &&
+                    boardState[coordinate] &&
+                    !isValidMove &&
+                    isSourcePieceColorCorrect
                 ) {
                     dispatch(mainSlice.actions.setSourceCoordinate(coordinate));
                     dispatch(mainSlice.actions.setDraggedPieceXY({ x, y }));
@@ -117,6 +133,7 @@ export const useChessBoardMouseHandler = (containerRef) => {
         dispatch,
         getIsValidMove,
         sourceCoordinate,
+        turn,
     ]);
 
     // Handle mousemove
@@ -229,11 +246,17 @@ const useGetIsValidMove = () => {
         (state) => state.main.sourceCoordinate,
     );
     const possibleMoves = useSelector((state) => state.main.possibleMoves);
+    const possibleMoveDests = useMemo(
+        () => possibleMoves.map((move) => move.dest),
+        [possibleMoves],
+    );
     return useCallback(
         (move) => {
             const { source, dest } = move;
-            return sourceCoordinate === source && possibleMoves.includes(dest);
+            return (
+                sourceCoordinate === source && possibleMoveDests.includes(dest)
+            );
         },
-        [possibleMoves, sourceCoordinate],
+        [possibleMoveDests, sourceCoordinate],
     );
 };

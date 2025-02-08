@@ -6,6 +6,8 @@ export const getFileAndRankIndices = (coordinate) => {
 };
 
 export const getCoordinate = (fileIndex, rankIndex) => {
+    fileIndex = Number(fileIndex);
+    rankIndex = Number(rankIndex);
     const file = String.fromCharCode(97 + fileIndex);
     const rank = (rankIndex + 1).toString();
     return file + rank;

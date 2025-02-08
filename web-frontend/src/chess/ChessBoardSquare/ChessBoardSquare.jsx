@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useCallback, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import mainSlice from "../../mainSlice";
 import { useElementLayoutObserver } from "../../util/useElementLayoutObserver";
@@ -58,7 +58,11 @@ const ChessBoardSquare = ({ coordinate }) => {
 
     // Determine if this square is currently a possible move
     const possibleMoves = useSelector((state) => state.main.possibleMoves);
-    const isPossibleMove = possibleMoves.includes(coordinate);
+    const possibleMoveDests = useMemo(
+        () => possibleMoves.map((move) => move.dest),
+        [possibleMoves],
+    );
+    const isPossibleMove = possibleMoveDests.includes(coordinate);
     const isOccupied = !!pieceString;
 
     // Calculate label sizes
@@ -71,9 +75,8 @@ const ChessBoardSquare = ({ coordinate }) => {
 
     // Calculate possible move circle size
     const possibleMoveSizePx = boardSizePx / 8 / 3;
-    const possibleMoveOccupiedSizePx = (boardSizePx / 8) * 0.8;
-    const possibleMoveOccupiedBorderWidthPx =
-        boardSizePx / 8 - (boardSizePx / 8) * 0.8;
+    const possibleMoveOccupiedSizePx = boardSizePx / 8;
+    const possibleMoveOccupiedBorderWidthPx = (boardSizePx / 8) * 0.12;
 
     return (
         <div

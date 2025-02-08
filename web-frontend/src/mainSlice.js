@@ -41,8 +41,6 @@ const mainSlice = createSlice({
         },
         boardSquaresBounds: {},
         moveHistory: [],
-        hasBlackKingMoved: false,
-        hasWhiteKingMoved: false,
         sourceCoordinate: null,
         hoveredCoordinate: null,
         isMouseDown: false,
@@ -58,14 +56,17 @@ const mainSlice = createSlice({
         makeMove: (state, action) => {
             const move = action.payload;
             const { source, dest } = move;
-            const sourcePiece = state.boardState[source];
-            const [pieceColor, pieceType] = sourcePiece;
-            if (pieceType === "k") {
-                if (pieceColor === "w") {
-                    state.hasBlackKingMoved = true;
-                } else {
-                    state.hasBlackKingMoved = true;
-                }
+            const possibleMove = state.possibleMoves.find((move) => {
+                return move.dest === dest;
+            });
+            const coordinatesToDelete = possibleMove.coordinatesToDelete ?? [];
+            for (const coordinate of coordinatesToDelete) {
+                delete state.boardState[coordinate];
+            }
+            const additionalMoves = possibleMove.additionalMoves ?? [];
+            for (const move of additionalMoves) {
+                state.boardState[move.dest] = state.boardState[move.source];
+                delete state.boardState[move.source];
             }
             state.boardState[dest] = state.boardState[source];
             delete state.boardState[source];
