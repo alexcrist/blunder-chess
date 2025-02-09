@@ -2,6 +2,7 @@ import { useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import ChessBoardSquare from "../ChessBoardSquare/ChessBoardSquare";
 import { useCalculatePossibleMoves } from "../useCalculatePossibleMoves";
+import { useCheckForGameOver } from "../useCheckForGameOver";
 import { useChessBoardMouseHandler } from "../useChessBoardMouseHandler";
 import styles from "./ChessBoard.module.css";
 
@@ -31,6 +32,9 @@ const ChessBoard = () => {
 
     // Calculate possible moves
     useCalculatePossibleMoves();
+
+    // Check for win / tie
+    useCheckForGameOver();
 
     return (
         <div

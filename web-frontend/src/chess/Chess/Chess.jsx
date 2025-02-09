@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useCallback, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTurn } from "../../getTurn";
 import mainSlice from "../../mainSlice";
 import { useElementLayoutObserver } from "../../util/useElementLayoutObserver";
@@ -46,18 +46,22 @@ const Chess = () => {
         return () => element.removeEventListener("contextmenu", onRightClick);
     }, [boardContainerRef]);
 
+    // Get player names
+    const player1Name = useSelector((state) => state.main.player1Name);
+    const player2Name = useSelector((state) => state.main.player2Name);
+
     return (
         <div className={styles.container}>
             <div className={styles.boardContainer} ref={boardContainerRef}>
                 <div className={classNames(styles.player, styles.player2)}>
                     <div className={styles.color} />
-                    <div className={styles.name}>Player 2</div>
+                    <div className={styles.name}>{player2Name}</div>
                     {activePlayer === "2" && turnElement}
                 </div>
                 <ChessBoard />
                 <div className={classNames(styles.player, styles.player1)}>
                     <div className={styles.color} />
-                    <div className={styles.name}>Player 1</div>
+                    <div className={styles.name}>{player1Name}</div>
                     {activePlayer === "1" && turnElement}
                 </div>
             </div>

@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.text {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+.button {
+    width: 80px;
+    margin: 0 5px;
+    text-align: center;
+    border: 1px solid #333;
+    padding: 5px;
+    border-radius: 2px;
+    cursor: pointer;
+}

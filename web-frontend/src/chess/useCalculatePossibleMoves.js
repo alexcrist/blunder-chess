@@ -47,7 +47,7 @@ export const useCalculatePossibleMoves = () => {
     ]);
 };
 
-const getBoardStateIndices = (boardState) => {
+export const getBoardStateIndices = (boardState) => {
     const boardStateIndices = {};
     for (const coordinate in boardState) {
         const [fileIndex, rankIndex] = getFileAndRankIndices(coordinate);
@@ -58,7 +58,7 @@ const getBoardStateIndices = (boardState) => {
     return boardStateIndices;
 };
 
-const getPossibleMoves = (
+export const getPossibleMoves = (
     fileIndex,
     rankIndex,
     boardStateIndices,
@@ -551,7 +551,7 @@ const getWouldBeInCheck = (
     return isInCheck;
 };
 
-const getIsInCheck = (boardStateIndices, isWhite) => {
+export const getIsInCheck = (boardStateIndices, isWhite) => {
     const king = isWhite ? "wk" : "bk";
     const [fileIndex, rankIndex] = findPiece(king, boardStateIndices);
     return getIsSquareThreatened(

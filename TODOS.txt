@@ -1,21 +1,5 @@
 TODOS
 
-* fix content sizing on mobile
-
-* fix touch events on mobile
-
-* add real game rules
-
-* highlight previous move
-
-* record all moves
-
-* hover piece where its moving
-
-* show possible moves
-
-* pawn promote
-
 * tie detect
 
 * win detect
@@ -24,18 +8,8 @@ TODOS
 
 * add network dual-screen one board multiplayer
 
-NOTES
-
-* keep rendering very separate from game logic
-
-* keep player separated from piece color
-
-* maybe undo function would be nice?
+* record all moves
 
 THOUGHTS
 
-* make it mobile first
-
-* full width
-
-* maybe eliminate touch and drag...?
+* maybe undo function would be nice?

@@ -47,6 +47,8 @@ const mainSlice = createSlice({
         draggedPieceXY: null,
         possibleMoves: [],
         isPromotingPawn: false,
+        winner: null,
+        isTie: false,
         player1Name: "Player 1",
         player2Name: "Player 2",
     },
@@ -108,6 +110,12 @@ const mainSlice = createSlice({
         },
         setPossibleMoves: (state, action) => {
             state.possibleMoves = action.payload;
+        },
+        setWinner: (state, action) => {
+            state.winner = action.payload;
+        },
+        setIsTie: (state, action) => {
+            state.isTie = action.payload;
         },
     },
 });

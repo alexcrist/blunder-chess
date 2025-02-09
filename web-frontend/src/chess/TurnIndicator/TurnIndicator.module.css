@@ -1,74 +1,105 @@
 .container {
-    background-color: blue;
     width: 100vw;
-    background-color: #ccc;
+    background-color: #ddd;
+    color: #333;
     overflow: auto;
 }
 
 .turns {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    /* width: 100000vw; */
-    padding: 10px;
+    padding: 10px 0;
 }
 
 .turn {
-    width: 100px;
-    margin-right: 10px;
-    border-radius: 10px;
-    box-sizing: border-box;
+    padding: 0 15px;
     opacity: 0.5;
-    text-align: center;
-    border: 5px solid #aaa;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
+}
+
+.turn {
+    border-right: 1px solid #bbb;
+    font-size: 14px;
 }
 
 .turn.isActive {
-    border-color: #f5f5ee;
     opacity: 1;
+    font-size: 16px;
 }
 
-.player1 {
-    background-color: blue;
-    color: white;
+.turn .player {
+    font-size: 14px;
 }
 
-.player2 {
-    background-color: red;
+.turn .pieceColor {
+    font-size: 12px;
+}
+
+.turn.isActive .player {
+    font-size: 16px;
+}
+
+.turn.isActive .pieceColor {
+    font-size: 14px;
+}
+
+.turn .player .color {
+    width: 10px;
+    height: 10px;
+}
+
+.turn.isActive .player .color {
+    width: 12px;
+    height: 12px;
+}
+
+.turn .pieceColor .color {
+    width: 8px;
+    height: 8px;
+}
+
+.turn.isActive .pieceColor .color {
+    width: 10px;
+    height: 10px;
 }
 
 .player {
-    padding: 5px;
-    flex: 1;
+    white-space: nowrap;
+    font-weight: bold;
     display: flex;
     align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    line-height: 1;
-    font-size: 14px;
-    font-weight: bold;
+    margin-bottom: 2px;
 }
 
-.color {
-    padding: 5px;
-    flex: 1;
+.player .color {
+    margin-right: 5px;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+.player.player1 .color {
+    background-color: blue;
+}
+
+.player.player2 .color {
+    background-color: red;
+}
+
+.pieceColor {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    font-size: 12px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
 }
 
-.colorW {
-    background-color: #ffffff;
-    color: black;
+.pieceColor .color {
+    margin-right: 5px;
+    border-radius: 3px;
 }
 
-.colorB {
-    background-color: black;
-    color: white;
+.pieceColor.colorW .color {
+    border: 1px solid #333;
+    background-color: #fff;
+}
+
+.pieceColor.colorB .color {
+    border: 1px solid #333;
+    background-color: #333;
 }

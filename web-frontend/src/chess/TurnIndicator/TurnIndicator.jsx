@@ -10,32 +10,43 @@ const TurnIndicator = () => {
         turns.push(getTurn(globalTurnIndex + i));
     }
 
+    // Get player names
+    const player1Name = useSelector((state) => state.main.player1Name);
+    const player2Name = useSelector((state) => state.main.player2Name);
+
     return (
         <div className={styles.container}>
             <div className={styles.turns}>
                 {turns.map((turn, index) => {
                     const [player, color] = turn;
+                    const playerName =
+                        player === "1" ? player1Name : player2Name;
                     return (
                         <div
-                            className={classNames(
-                                styles.turn,
-                                styles[`player${player}`],
-                                {
-                                    [styles.isActive]: index === 0,
-                                },
-                            )}
+                            className={classNames(styles.turn, {
+                                [styles.isActive]: index === 0,
+                            })}
                             key={`turn-${index}`}
                         >
-                            <div className={styles.player}>
-                                Player&nbsp;{player}
+                            <div
+                                className={classNames(
+                                    styles.player,
+                                    styles[`player${player}`],
+                                )}
+                            >
+                                <div className={styles.color} />
+                                <div className={styles.text}>{playerName}</div>
                             </div>
                             <div
                                 className={classNames(
-                                    styles.color,
+                                    styles.pieceColor,
                                     styles[`color${color.toUpperCase()}`],
                                 )}
                             >
-                                moves&nbsp;{color === "w" ? "white" : "black"}
+                                <div className={styles.color} />
+                                <div className={styles.text}>
+                                    {color === "w" ? "White" : "Black"}
+                                </div>
                             </div>
                         </div>
                     );
