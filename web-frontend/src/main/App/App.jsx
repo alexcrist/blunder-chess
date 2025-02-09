@@ -5,18 +5,11 @@ import PawnPromotionModal from "../../chess/PawnPromotionModal/PawnPromotionModa
 import Menu from "../Menu/Menu";
 
 const App = () => {
-    const isPlayingLocalMultiplayer = useSelector(
-        (state) => state.main.isPlayingLocalMultiplayer,
-    );
-    const isPlayingOnlineMultiplayer = useSelector(
-        (state) => state.main.isPlayingOnlineMultiplayer,
-    );
-    const isPlayingDualScreenMultiplayer = useSelector(
-        (state) => state.main.isPlayingDualScreenMultiplayer,
-    );
+    const isGameActive = useSelector((state) => state.main.isGameActive);
+    console.log("isGameActive", isGameActive);
 
     let view = <Menu />;
-    if (isPlayingLocalMultiplayer) {
+    if (isGameActive) {
         view = <Chess />;
     }
 

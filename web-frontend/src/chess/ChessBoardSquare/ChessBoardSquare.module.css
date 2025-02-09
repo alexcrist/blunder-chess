@@ -8,19 +8,18 @@
 }
 
 .isSquareWhite {
-    background-color: #eeeed2;
+    /* background-color: #eeeed2; */
+    background-color: #f9cedb;
 }
 
 .isSquareBlack {
-    background-color: #759656;
+    background-color: #9e4b81;
+    /* background-color: #759656; */
 }
 
-.isSquareWhite.isHighlighted {
-    background-color: #bac949;
-}
-
+.isSquareWhite.isHighlighted,
 .isSquareBlack.isHighlighted {
-    background-color: #bac949;
+    background-color: #cec84b;
 }
 
 .fileLabel,
@@ -31,12 +30,14 @@
 
 .isSquareWhite .fileLabel,
 .isSquareWhite .rankLabel {
-    color: #759656;
+    color: #9e4b81;
+    /* color: #759656; */
 }
 
 .isSquareBlack .fileLabel,
 .isSquareBlack .rankLabel {
-    color: #eeeed2;
+    color: #f9cedb;
+    /* color: #eeeed2; */
 }
 
 .fileLabel {

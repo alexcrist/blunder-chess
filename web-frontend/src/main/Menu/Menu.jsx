@@ -1,12 +1,15 @@
 import _ from "lodash";
 import { useDispatch } from "react-redux";
+import chessSlice from "../../chess/chessSlice";
 import mainSlice from "../mainSlice";
 import styles from "./Menu.module.css";
 
 const Menu = () => {
     const dispatch = useDispatch();
     const onPlayLocal = () => {
-        dispatch(mainSlice.actions.setIsPlayingLocalMultiplayer(true));
+        dispatch(mainSlice.actions.setIsGameActive(true));
+        dispatch(chessSlice.actions.setDoesControlPlayer1(true));
+        dispatch(chessSlice.actions.setDoesControlPlayer2(true));
     };
     const onPlayOnline = () => {
         // TODO
