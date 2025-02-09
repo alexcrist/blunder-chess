@@ -1,15 +1,14 @@
 TODOS
 
-* tie detect
-
-* win detect
-
 * add network multiplayer
 
 * add network dual-screen one board multiplayer
 
 * record all moves
 
-THOUGHTS
+* allow undo
 
-* maybe undo function would be nice?
+* add advanced draw detection (via repetition, etc.)
+
+* allow offer draw / resign
+
