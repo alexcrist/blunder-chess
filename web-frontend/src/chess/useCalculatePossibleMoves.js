@@ -2,16 +2,16 @@ import _ from "lodash";
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTurn } from "../getTurn";
-import mainSlice from "../mainSlice";
 import { getCoordinate, getFileAndRankIndices } from "./chessCoordinates";
+import chessSlice from "./chessSlice";
 
 export const useCalculatePossibleMoves = () => {
     const dispatch = useDispatch();
     const sourceCoordinate = useSelector(
-        (state) => state.main.sourceCoordinate,
+        (state) => state.chess.sourceCoordinate,
     );
-    const boardState = useSelector((state) => state.main.boardState);
-    const moveHistory = useSelector((state) => state.main.moveHistory);
+    const boardState = useSelector((state) => state.chess.boardState);
+    const moveHistory = useSelector((state) => state.chess.moveHistory);
     const turn = useTurn();
     const boardStateIndices = useMemo(() => {
         return getBoardStateIndices(boardState);
@@ -37,7 +37,7 @@ export const useCalculatePossibleMoves = () => {
                 turn,
             );
         }
-        dispatch(mainSlice.actions.setPossibleMoves(possibleMoves));
+        dispatch(chessSlice.actions.setPossibleMoves(possibleMoves));
     }, [
         boardStateIndices,
         dispatch,

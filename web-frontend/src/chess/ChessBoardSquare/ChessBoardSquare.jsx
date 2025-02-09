@@ -1,14 +1,14 @@
 import classNames from "classnames";
 import { useCallback, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import mainSlice from "../../mainSlice";
 import { useElementLayoutObserver } from "../../util/useElementLayoutObserver";
 import ChessPiece from "../ChessPiece/ChessPiece";
+import chessSlice from "../chessSlice";
 import styles from "./ChessBoardSquare.module.css";
 
 const ChessBoardSquare = ({ coordinate }) => {
     // Parse coordinate
-    const boardState = useSelector((state) => state.main.boardState);
+    const boardState = useSelector((state) => state.chess.boardState);
     const pieceString = boardState[coordinate];
     const [file, rank] = coordinate;
     const fileIndex = file.charCodeAt(0) - "a".charCodeAt(0);
@@ -21,7 +21,7 @@ const ChessBoardSquare = ({ coordinate }) => {
         ({ top, left, bottom, right }) => {
             const bounds = { top, left, bottom, right };
             dispatch(
-                mainSlice.actions.setBoardSquareBounds({
+                chessSlice.actions.setBoardSquareBounds({
                     coordinate,
                     bounds,
                 }),
@@ -37,16 +37,16 @@ const ChessBoardSquare = ({ coordinate }) => {
 
     // Determine if square is source and/or is hovered
     const sourceCoordinate = useSelector(
-        (state) => state.main.sourceCoordinate,
+        (state) => state.chess.sourceCoordinate,
     );
     const hoveredCoordinate = useSelector(
-        (state) => state.main.hoveredCoordinate,
+        (state) => state.chess.hoveredCoordinate,
     );
     const isSource = sourceCoordinate === coordinate;
     const isHovered = hoveredCoordinate === coordinate;
 
     // Determine if square was part of the previous move
-    const moveHistory = useSelector((state) => state.main.moveHistory);
+    const moveHistory = useSelector((state) => state.chess.moveHistory);
     const lastMove = moveHistory[moveHistory.length - 1];
     const lastMoveSource = lastMove?.source ?? null;
     const lastMoveDest = lastMove?.dest ?? null;
@@ -57,7 +57,7 @@ const ChessBoardSquare = ({ coordinate }) => {
     const isHighlighted = isSource || wasLastMoveSource || wasLastMoveDest;
 
     // Determine if this square is currently a possible move
-    const possibleMoves = useSelector((state) => state.main.possibleMoves);
+    const possibleMoves = useSelector((state) => state.chess.possibleMoves);
     const possibleMoveDests = useMemo(
         () => possibleMoves.map((move) => move.dest),
         [possibleMoves],
@@ -66,7 +66,7 @@ const ChessBoardSquare = ({ coordinate }) => {
     const isOccupied = !!pieceString;
 
     // Calculate label sizes
-    const boardSizePx = useSelector((state) => state.main.boardSizePx) ?? 0;
+    const boardSizePx = useSelector((state) => state.chess.boardSizePx) ?? 0;
     const labelFontSizePx = boardSizePx * 0.022;
     const labelMarginSizePx = boardSizePx * 0.004;
 

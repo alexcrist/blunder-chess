@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const mainSlice = createSlice({
-    name: "main",
+const chessSlice = createSlice({
+    name: "chess",
     initialState: {
         globalTurnIndex: 0,
         boardSizePx: null,
@@ -120,4 +120,4 @@ const mainSlice = createSlice({
     },
 });
 
-export default mainSlice;
+export default chessSlice;

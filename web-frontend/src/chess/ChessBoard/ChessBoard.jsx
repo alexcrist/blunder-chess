@@ -24,7 +24,7 @@ const ChessBoard = () => {
     }, []);
 
     // Get board size
-    const boardSizePx = useSelector((state) => state.main.boardSizePx) ?? 0;
+    const boardSizePx = useSelector((state) => state.chess.boardSizePx) ?? 0;
 
     // Handle mouse events
     const containerRef = useRef(null);

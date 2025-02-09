@@ -2,9 +2,9 @@ import classNames from "classnames";
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTurn } from "../../getTurn";
-import mainSlice from "../../mainSlice";
 import { useElementLayoutObserver } from "../../util/useElementLayoutObserver";
 import ChessBoard from "../ChessBoard/ChessBoard";
+import chessSlice from "../chessSlice";
 import TurnIndicator from "../TurnIndicator/TurnIndicator";
 import styles from "./Chess.module.css";
 
@@ -14,7 +14,7 @@ const Chess = () => {
     const boardContainerRef = useRef(null);
     const onBoardLayoutChange = useCallback(
         ({ width }) => {
-            dispatch(mainSlice.actions.setBoardSizePx(width));
+            dispatch(chessSlice.actions.setBoardSizePx(width));
         },
         [dispatch],
     );
@@ -47,8 +47,8 @@ const Chess = () => {
     }, [boardContainerRef]);
 
     // Get player names
-    const player1Name = useSelector((state) => state.main.player1Name);
-    const player2Name = useSelector((state) => state.main.player2Name);
+    const player1Name = useSelector((state) => state.chess.player1Name);
+    const player2Name = useSelector((state) => state.chess.player2Name);
 
     return (
         <div className={styles.container}>

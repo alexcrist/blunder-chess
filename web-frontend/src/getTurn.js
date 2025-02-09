@@ -9,7 +9,7 @@ const TURN_ORDER = [
 ];
 
 export const useTurn = () => {
-    const globalTurnIndex = useSelector((state) => state.main.globalTurnIndex);
+    const globalTurnIndex = useSelector((state) => state.chess.globalTurnIndex);
     return useMemo(() => getTurn(globalTurnIndex), [globalTurnIndex]);
 };
 

@@ -1,14 +1,14 @@
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import mainSlice from "../../mainSlice";
 import ChessPiece from "../ChessPiece/ChessPiece";
+import chessSlice from "../chessSlice";
 import Modal from "../Modal/Modal";
 import styles from "./PawnPromotionModal.module.css";
 
 const PawnPromotionModal = () => {
     // Determine piece color of promotion
-    const boardState = useSelector((state) => state.main.boardState);
-    const moveHistory = useSelector((state) => state.main.moveHistory);
+    const boardState = useSelector((state) => state.chess.boardState);
+    const moveHistory = useSelector((state) => state.chess.moveHistory);
     const pieceColor = useMemo(() => {
         const previousMove = moveHistory[moveHistory.length - 1];
         if (!previousMove) {
@@ -23,13 +23,13 @@ const PawnPromotionModal = () => {
     }, [boardState, moveHistory]);
 
     // Determine if promoting
-    const isPromotingPawn = useSelector((state) => state.main.isPromotingPawn);
+    const isPromotingPawn = useSelector((state) => state.chess.isPromotingPawn);
 
     // On promotion
     const dispatch = useDispatch();
     const onChoosePromotion = useCallback(
         (newPiece) => () => {
-            dispatch(mainSlice.actions.promotePawn(newPiece));
+            dispatch(chessSlice.actions.promotePawn(newPiece));
         },
         [dispatch],
     );

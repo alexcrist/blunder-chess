@@ -4,15 +4,15 @@ import { getTurn } from "../../getTurn";
 import styles from "./TurnIndicator.module.css";
 
 const TurnIndicator = () => {
-    const globalTurnIndex = useSelector((state) => state.main.globalTurnIndex);
+    const globalTurnIndex = useSelector((state) => state.chess.globalTurnIndex);
     const turns = [];
     for (let i = 0; i < 30; i++) {
         turns.push(getTurn(globalTurnIndex + i));
     }
 
     // Get player names
-    const player1Name = useSelector((state) => state.main.player1Name);
-    const player2Name = useSelector((state) => state.main.player2Name);
+    const player1Name = useSelector((state) => state.chess.player1Name);
+    const player2Name = useSelector((state) => state.chess.player2Name);
 
     return (
         <div className={styles.container}>

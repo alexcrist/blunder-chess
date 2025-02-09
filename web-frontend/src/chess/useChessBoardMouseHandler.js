@@ -1,18 +1,18 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTurn } from "../getTurn";
-import mainSlice from "../mainSlice";
+import chessSlice from "./chessSlice";
 
 export const useChessBoardMouseHandler = (containerRef) => {
     const dispatch = useDispatch();
     const sourceCoordinate = useSelector(
-        (state) => state.main.sourceCoordinate,
+        (state) => state.chess.sourceCoordinate,
     );
     const boardSquaresBounds = useSelector(
-        (state) => state.main.boardSquaresBounds,
+        (state) => state.chess.boardSquaresBounds,
     );
-    const isMouseDown = useSelector((state) => state.main.isMouseDown);
-    const boardState = useSelector((state) => state.main.boardState);
+    const isMouseDown = useSelector((state) => state.chess.isMouseDown);
+    const boardState = useSelector((state) => state.chess.boardState);
     const getIsValidMove = useGetIsValidMove();
     const turn = useTurn();
 
@@ -25,7 +25,7 @@ export const useChessBoardMouseHandler = (containerRef) => {
             containerRef.current,
             forwardMouseCoords(({ x, y }, event) => {
                 event.preventDefault();
-                dispatch(mainSlice.actions.setIsMouseDown(true));
+                dispatch(chessSlice.actions.setIsMouseDown(true));
 
                 // User touched off the board
                 const coordinate = getCoordinateAtPosition(
@@ -34,14 +34,14 @@ export const useChessBoardMouseHandler = (containerRef) => {
                     boardSquaresBounds,
                 );
                 if (coordinate === null) {
-                    dispatch(mainSlice.actions.setSourceCoordinate(null));
+                    dispatch(chessSlice.actions.setSourceCoordinate(null));
                     return;
                 }
 
                 // No piece had been selected yet and the touched square does not have
                 // a piece
                 if (sourceCoordinate === null && !boardState[coordinate]) {
-                    dispatch(mainSlice.actions.setSourceCoordinate(null));
+                    dispatch(chessSlice.actions.setSourceCoordinate(null));
                     return;
                 }
 
@@ -55,7 +55,7 @@ export const useChessBoardMouseHandler = (containerRef) => {
                     boardState[coordinate] &&
                     !isSourcePieceColorCorrect
                 ) {
-                    dispatch(mainSlice.actions.setSourceCoordinate(null));
+                    dispatch(chessSlice.actions.setSourceCoordinate(null));
                     return;
                 }
 
@@ -66,14 +66,16 @@ export const useChessBoardMouseHandler = (containerRef) => {
                     boardState[coordinate] &&
                     isSourcePieceColorCorrect
                 ) {
-                    dispatch(mainSlice.actions.setSourceCoordinate(coordinate));
-                    dispatch(mainSlice.actions.setDraggedPieceXY({ x, y }));
+                    dispatch(
+                        chessSlice.actions.setSourceCoordinate(coordinate),
+                    );
+                    dispatch(chessSlice.actions.setDraggedPieceXY({ x, y }));
                     return;
                 }
 
                 // Selected piece was re-touched
                 if (sourceCoordinate === coordinate) {
-                    dispatch(mainSlice.actions.setSourceCoordinate(null));
+                    dispatch(chessSlice.actions.setSourceCoordinate(null));
                     return;
                 }
 
@@ -87,7 +89,7 @@ export const useChessBoardMouseHandler = (containerRef) => {
                     !boardState[coordinate] &&
                     !isValidMove
                 ) {
-                    dispatch(mainSlice.actions.setSourceCoordinate(null));
+                    dispatch(chessSlice.actions.setSourceCoordinate(null));
                     return;
                 }
 
@@ -101,7 +103,7 @@ export const useChessBoardMouseHandler = (containerRef) => {
                     !isValidMove &&
                     !isSourcePieceColorCorrect
                 ) {
-                    dispatch(mainSlice.actions.setSourceCoordinate(null));
+                    dispatch(chessSlice.actions.setSourceCoordinate(null));
                     return;
                 }
 
@@ -115,15 +117,17 @@ export const useChessBoardMouseHandler = (containerRef) => {
                     !isValidMove &&
                     isSourcePieceColorCorrect
                 ) {
-                    dispatch(mainSlice.actions.setSourceCoordinate(coordinate));
-                    dispatch(mainSlice.actions.setDraggedPieceXY({ x, y }));
+                    dispatch(
+                        chessSlice.actions.setSourceCoordinate(coordinate),
+                    );
+                    dispatch(chessSlice.actions.setDraggedPieceXY({ x, y }));
                     return;
                 }
 
                 // A piece was selected and a new square was touched and the proposed
                 // move is valid
-                dispatch(mainSlice.actions.makeMove(move));
-                dispatch(mainSlice.actions.setSourceCoordinate(null));
+                dispatch(chessSlice.actions.makeMove(move));
+                dispatch(chessSlice.actions.setSourceCoordinate(null));
             }),
         );
     }, [
@@ -146,8 +150,8 @@ export const useChessBoardMouseHandler = (containerRef) => {
                 boardSquaresBounds,
             );
             if (isMouseDown && sourceCoordinate) {
-                dispatch(mainSlice.actions.setDraggedPieceXY({ x, y }));
-                dispatch(mainSlice.actions.setHoveredCoordinate(coordinate));
+                dispatch(chessSlice.actions.setDraggedPieceXY({ x, y }));
+                dispatch(chessSlice.actions.setHoveredCoordinate(coordinate));
             }
         };
         return addMouseMoveListener(onMouseMove);
@@ -155,16 +159,14 @@ export const useChessBoardMouseHandler = (containerRef) => {
 
     // Handle mouseup
     useEffect(() => {
-        const onMouseUp = (positionXY, event) => {
-            const { x, y } = positionXY;
-            event.preventDefault();
-            dispatch(mainSlice.actions.setIsMouseDown(false));
+        const onMouseUp = ({ x, y }) => {
+            dispatch(chessSlice.actions.setIsMouseDown(false));
             const coordinate = getCoordinateAtPosition(
                 x,
                 y,
                 boardSquaresBounds,
             );
-            dispatch(mainSlice.actions.setHoveredCoordinate(null));
+            dispatch(chessSlice.actions.setHoveredCoordinate(null));
 
             // User performed a drag-move
             if (
@@ -174,8 +176,8 @@ export const useChessBoardMouseHandler = (containerRef) => {
             ) {
                 const move = { source: sourceCoordinate, dest: coordinate };
                 if (getIsValidMove(move)) {
-                    dispatch(mainSlice.actions.makeMove(move));
-                    dispatch(mainSlice.actions.setSourceCoordinate(null));
+                    dispatch(chessSlice.actions.makeMove(move));
+                    dispatch(chessSlice.actions.setSourceCoordinate(null));
                 }
             }
         };
@@ -205,7 +207,7 @@ const addMouseDownListener = (element, handler) => {
 const addMouseMoveListener = (rawHandler) => {
     const handler = forwardMouseCoords(rawHandler);
     document.addEventListener("mousemove", handler);
-    document.addEventListener("touchmove", handler);
+    document.addEventListener("touchmove", handler, { passive: false });
     return () => {
         document.removeEventListener("mousemove", handler);
         document.removeEventListener("touchmove", handler);
@@ -215,8 +217,8 @@ const addMouseMoveListener = (rawHandler) => {
 const addMouseUpListener = (rawHandler) => {
     const handler = forwardMouseCoords(rawHandler);
     document.addEventListener("mouseup", handler);
-    document.addEventListener("touchend", handler);
-    document.addEventListener("touchcancel", handler);
+    document.addEventListener("touchend", handler, { passive: false });
+    document.addEventListener("touchcancel", handler, { passive: false });
     return () => {
         document.removeEventListener("mouseup", handler);
         document.removeEventListener("touchend", handler);
@@ -243,9 +245,9 @@ const forwardMouseCoords = (handler) => {
 
 const useGetIsValidMove = () => {
     const sourceCoordinate = useSelector(
-        (state) => state.main.sourceCoordinate,
+        (state) => state.chess.sourceCoordinate,
     );
-    const possibleMoves = useSelector((state) => state.main.possibleMoves);
+    const possibleMoves = useSelector((state) => state.chess.possibleMoves);
     const possibleMoveDests = useMemo(
         () => possibleMoves.map((move) => move.dest),
         [possibleMoves],

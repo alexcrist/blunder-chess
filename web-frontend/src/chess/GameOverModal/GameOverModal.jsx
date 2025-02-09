@@ -4,10 +4,10 @@ import Modal from "../Modal/Modal";
 import styles from "./GameOverModal.module.css";
 
 const GameOverModal = () => {
-    const winner = useSelector((state) => state.main.winner);
-    const player1Name = useSelector((state) => state.main.player1Name);
-    const player2Name = useSelector((state) => state.main.player2Name);
-    const isTie = useSelector((state) => state.main.isTie);
+    const winner = useSelector((state) => state.chess.winner);
+    const player1Name = useSelector((state) => state.chess.player1Name);
+    const player2Name = useSelector((state) => state.chess.player2Name);
+    const isTie = useSelector((state) => state.chess.isTie);
     const [isClosed, setIsClosed] = useState(false);
     const isVisible = useMemo(
         () => (winner || isTie) && !isClosed,

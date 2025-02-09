@@ -7,17 +7,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 4;
+    z-index: 999;
     backdrop-filter: blur(4px);
-    background-color: #00000022;
+    background-color: hsla(0, 0%, 0%, 0.133);
 }
 
 .content {
-    z-index: 5;
+    z-index: 999;
     background-color: #fff;
     border-radius: 2px;
     padding: 5px;
     box-shadow:
         0 10px 20px rgba(0, 0, 0, 0.1),
         0 3px 6px rgba(0, 0, 0, 0.13);
+}
+
+.content * {
 }

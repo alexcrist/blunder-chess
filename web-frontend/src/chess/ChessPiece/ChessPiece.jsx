@@ -15,16 +15,16 @@ const ChessPiece = ({ pieceString, coordinate }) => {
     );
 
     // Calculate piece size
-    const boardSizePx = useSelector((state) => state.main.boardSizePx) ?? 0;
+    const boardSizePx = useSelector((state) => state.chess.boardSizePx) ?? 0;
     const pieceSizePx = useMemo(() => {
         return boardSizePx / 8;
     }, [boardSizePx]);
 
     // Determine if piece is being dragged
-    const isMouseDown = useSelector((state) => state.main.isMouseDown);
-    const draggedPieceXY = useSelector((state) => state.main.draggedPieceXY);
+    const isMouseDown = useSelector((state) => state.chess.isMouseDown);
+    const draggedPieceXY = useSelector((state) => state.chess.draggedPieceXY);
     const sourceCoordinate = useSelector(
-        (state) => state.main.sourceCoordinate,
+        (state) => state.chess.sourceCoordinate,
     );
     const isBeingDragged = useMemo(
         () => isMouseDown && sourceCoordinate === coordinate,
