@@ -52,6 +52,7 @@ const Chess = () => {
 
     return (
         <div className={styles.container}>
+            <div className={styles.spacer} />
             <div className={styles.boardContainer} ref={boardContainerRef}>
                 <div className={classNames(styles.player, styles.player2)}>
                     <div className={styles.color} />
@@ -65,6 +66,7 @@ const Chess = () => {
                     {activePlayer === "1" && turnElement}
                 </div>
             </div>
+            <div className={styles.spacer} />
             <TurnIndicator />
         </div>
     );

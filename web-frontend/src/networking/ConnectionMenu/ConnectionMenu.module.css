@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-family: "Rock 3D", serif;
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    background-color: var(--dark-primary-color);
+    padding: 10px;
+    margin: 40px 0 20px;
+    color: white;
+    border-radius: 2px;
+}
+
+.content {
+}
+
+.players {
+    overflow: auto;
+}
+
+.player {
+    background-color: var(--dark-primary-color);
+    padding: 10px;
+    margin-bottom: 20px;
+    color: white;
+    border-radius: 2px;
+    font-size: 20px;
+}

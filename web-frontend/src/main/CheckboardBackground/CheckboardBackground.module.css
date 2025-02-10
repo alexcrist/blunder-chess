@@ -1,0 +1,31 @@
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+    width: 100dvw;
+    height: 100dvh;
+}
+
+.background {
+    position: absolute;
+    top: -100px;
+    left: -30dvw;
+    right: -20dvw;
+    bottom: -100px;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    filter: blur(8px) brightness(1);
+}
+
+.background div {
+    background-color: var(--chess-square-dark-color);
+    height: 20dvw;
+    width: 20dvw;
+}
+
+.background div:nth-child(even) {
+    background-color: var(--chess-square-light-color);
+}

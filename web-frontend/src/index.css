@@ -7,3 +7,12 @@ body {
 * {
     font-family: "Open Sans", serif;
 }
+
+:root {
+    --chess-square-light-color: #f9cedb;
+    --chess-square-dark-color: #9e4b81;
+    --chess-square-highlight-color: #cec84b;
+    --dark-primary-color: #00224d;
+    --player-1-color: seaGreen;
+    --player-2-color: tomato;
+}

@@ -18,7 +18,7 @@
     font-family: "Rock 3D", serif;
     font-weight: 700;
     font-style: normal;
-    background-color: #00224d;
+    background-color: var(--dark-primary-color);
     color: white;
     margin-bottom: 40px;
     box-shadow:
@@ -26,32 +26,9 @@
         0 0 6px rgba(255, 255, 255, 0.13);
 }
 
-.background {
-    position: absolute;
-    top: -100px;
-    left: -30dvw;
-    right: -20dvw;
-    bottom: -100px;
-    display: flex;
-    flex-wrap: wrap;
-    overflow: hidden;
-    z-index: -1;
-    filter: blur(8px);
-}
-
-.background div {
-    background-color: #5d0e41;
-    height: 20dvw;
-    width: 20dvw;
-}
-
-.background div:nth-child(even) {
-    background-color: #a0153e;
-}
-
 .button {
     font-family: "Rock 3D", serif;
-    background-color: #00224d;
+    background-color: var(--dark-primary-color);
     font-size: 30px;
     margin: 40px;
     margin-bottom: 20px;
@@ -61,10 +38,8 @@
     border-radius: 2px;
     padding: 5px;
     padding-bottom: 10px;
-    box-shadow:
-        0 0 30px rgba(255, 255, 255, 0.2),
-        0 0 6px rgba(255, 255, 255, 0.13);
-    width: 290px;
+    width: 400px;
+    max-width: 90%;
 }
 
 .button:active {

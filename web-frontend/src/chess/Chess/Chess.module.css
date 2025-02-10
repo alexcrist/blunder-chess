@@ -6,7 +6,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    background-color: #555352;
+    background-color: #00132b;
     overscroll-behavior: contain;
 }
 
@@ -29,11 +29,11 @@
 }
 
 .player1 .color {
-    background-color: blue;
+    background-color: var(--player-1-color);
 }
 
 .player2 .color {
-    background-color: red;
+    background-color: var(--player-2-color);
 }
 
 .boardContainer {
@@ -42,7 +42,6 @@
     flex-direction: column;
     max-width: 70dvh;
     width: 100vw;
-    flex: 1;
 }
 
 .turn {
@@ -50,4 +49,8 @@
     font-style: italic;
     margin-left: 10px;
     font-weight: normal;
+}
+
+.spacer {
+    flex: 1;
 }

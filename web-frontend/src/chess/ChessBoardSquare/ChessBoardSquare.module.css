@@ -8,18 +8,16 @@
 }
 
 .isSquareWhite {
-    /* background-color: #eeeed2; */
-    background-color: #f9cedb;
+    background-color: var(--chess-square-light-color);
 }
 
 .isSquareBlack {
-    background-color: #9e4b81;
-    /* background-color: #759656; */
+    background-color: var(--chess-square-dark-color);
 }
 
 .isSquareWhite.isHighlighted,
 .isSquareBlack.isHighlighted {
-    background-color: #cec84b;
+    background-color: var(--chess-square-highlight-color);
 }
 
 .fileLabel,
@@ -30,14 +28,12 @@
 
 .isSquareWhite .fileLabel,
 .isSquareWhite .rankLabel {
-    color: #9e4b81;
-    /* color: #759656; */
+    color: var(--chess-square-dark-color);
 }
 
 .isSquareBlack .fileLabel,
 .isSquareBlack .rankLabel {
-    color: #f9cedb;
-    /* color: #eeeed2; */
+    color: var(--chess-square-light-color);
 }
 
 .fileLabel {
