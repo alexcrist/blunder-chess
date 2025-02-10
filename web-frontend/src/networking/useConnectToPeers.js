@@ -150,7 +150,7 @@ export const useConnectToPeers = () => {
                     sendMessageToPeer(peerId, DUAL_SCREEN_SEARCH_CANCEL);
                 } else {
                     setPeerIdOfInboundReq(peerId);
-                    setIsHeads(message.isHeads);
+                    setIsHeads(message.payload.isHeads);
                 }
             },
             [DUAL_SCREEN_MATCH_CONFIRM]: (message, peerId) => {

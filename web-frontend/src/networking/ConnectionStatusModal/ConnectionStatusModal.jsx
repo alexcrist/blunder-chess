@@ -10,8 +10,6 @@ const ConnectionStatusModal = ({
     peerIdOfOutboundReq,
 }) => {
     const isVisible = peerIdOfInboundReq || peerIdOfOutboundReq;
-    console.log("peerIdOfOutboundReq", peerIdOfOutboundReq);
-    console.log("peerIdOfInboundReq", peerIdOfInboundReq);
     let content;
     if (peerIdOfInboundReq) {
         const peerName = _.find(players, { peerId: peerIdOfInboundReq })?.name;

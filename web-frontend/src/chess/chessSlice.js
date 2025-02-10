@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import _ from "lodash";
 
 const chessSlice = createSlice({
     name: "chess",
@@ -122,6 +123,27 @@ const chessSlice = createSlice({
         },
         setPlayer2Name: (state, action) => {
             state.player2Name = action.payload;
+        },
+        syncData: (state, action) => {
+            const {
+                moveHistory,
+                boardState,
+                globalTurnIndex,
+                isPromotingPawn,
+                sourceCoordinate,
+                hoveredCoordinate,
+            } = action.payload;
+            state.sourceCoordinate = sourceCoordinate;
+            state.hoveredCoordinate = hoveredCoordinate;
+            if (
+                globalTurnIndex > state.globalTurnIndex &&
+                !_.isEqual(boardState, state.boardState)
+            ) {
+                state.moveHistory = moveHistory;
+                state.boardState = boardState;
+                state.globalTurnIndex = globalTurnIndex;
+                state.isPromotingPawn = isPromotingPawn;
+            }
         },
     },
 });

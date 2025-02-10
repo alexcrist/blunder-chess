@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTurn } from "../../getTurn";
+import { useGameSync } from "../../networking/useGameSync";
 import { useElementLayoutObserver } from "../../util/useElementLayoutObserver";
 import ChessBoard from "../ChessBoard/ChessBoard";
 import chessSlice from "../chessSlice";
@@ -49,6 +50,9 @@ const Chess = () => {
     // Get player names
     const player1Name = useSelector((state) => state.chess.player1Name);
     const player2Name = useSelector((state) => state.chess.player2Name);
+
+    // Sync game state with peer (if applicable)
+    useGameSync();
 
     return (
         <div className={styles.container}>

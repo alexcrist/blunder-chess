@@ -6,7 +6,7 @@ const mainSlice = createSlice({
     initialState: {
         name: generateRandomName(),
         isGameActive: false,
-        isConnectingToDualScreen: true, // TODO: revert to false
+        isConnectingToDualScreen: false,
         connectedPeer: null,
     },
     reducers: {
