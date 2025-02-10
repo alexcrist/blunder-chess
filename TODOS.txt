@@ -1,8 +1,10 @@
 TODOS
 
-* add network multiplayer
+* deploy to domain name
 
 * add network dual-screen one board multiplayer
+
+* add network versus
 
 * record all moves
 
@@ -11,4 +13,3 @@ TODOS
 * add advanced draw detection (via repetition, etc.)
 
 * allow offer draw / resign
-

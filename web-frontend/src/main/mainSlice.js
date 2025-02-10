@@ -8,6 +8,7 @@ const mainSlice = createSlice({
         isGameActive: false,
         isConnectingToDualScreen: false,
         connectedPeer: null,
+        isPlayer1: false,
     },
     reducers: {
         setName: (state, action) => {
