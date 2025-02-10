@@ -51,8 +51,6 @@ const chessSlice = createSlice({
         isTie: false,
         player1Name: "Player 1",
         player2Name: "Player 2",
-        doesControlPlayer1: true,
-        doesControlPlayer2: true,
     },
     reducers: {
         setBoardSizePx: (state, action) => {
@@ -119,11 +117,11 @@ const chessSlice = createSlice({
         setIsTie: (state, action) => {
             state.isTie = action.payload;
         },
-        setDoesControlPlayer1: (state, action) => {
-            state.doesControlPlayer1 = action.payload;
+        setPlayer1Name: (state, action) => {
+            state.player1Name = action.payload;
         },
-        setDoesControlPlayer2: (state, action) => {
-            state.doesControlPlayer2 = action.payload;
+        setPlayer2Name: (state, action) => {
+            state.player2Name = action.payload;
         },
     },
 });

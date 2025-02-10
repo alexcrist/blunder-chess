@@ -10,7 +10,7 @@
     text-align: center;
     background-color: var(--dark-primary-color);
     padding: 10px;
-    margin: 40px 0 20px;
+    margin: 40px 0 40px;
     color: white;
     border-radius: 2px;
 }
@@ -26,6 +26,9 @@
     background-color: var(--dark-primary-color);
     padding: 10px;
     margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 2px;
     color: white;
     border-radius: 2px;
     font-size: 20px;

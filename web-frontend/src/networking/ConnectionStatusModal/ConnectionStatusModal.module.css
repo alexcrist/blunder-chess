@@ -1,0 +1,28 @@
+.container {
+    padding: 20px;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.button {
+    padding: 10px;
+    background-color: var(--dark-primary-color);
+    color: white;
+    border-radius: 2px;
+    width: 35%;
+    text-align: center;
+}
+
+.button:active {
+    opacity: 0.5;
+}

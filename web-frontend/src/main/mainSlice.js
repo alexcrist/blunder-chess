@@ -7,7 +7,7 @@ const mainSlice = createSlice({
         name: generateRandomName(),
         isGameActive: false,
         isConnectingToDualScreen: true, // TODO: revert to false
-        connectedPeerId: null,
+        connectedPeer: null,
     },
     reducers: {
         setName: (state, action) => {
@@ -19,8 +19,8 @@ const mainSlice = createSlice({
         setIsConnectingToDualScreen: (state, action) => {
             state.isConnectingToDualScreen = action.payload;
         },
-        setConnectedPeerId: (state, action) => {
-            // TODO
+        setConnectedPeer: (state, action) => {
+            state.connectedPeer = action.payload;
         },
     },
 });
