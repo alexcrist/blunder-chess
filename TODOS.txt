@@ -2,14 +2,29 @@ TODOS
 
 * deploy to domain name
 
+* add link to code (maybe desktop only)
+
+* add basic navigation
+
+* update favicon
+
+* finish network versus
+    * only allow moving on your turn
+    * set your color to blue, opponent to red
+    * flip board if player2
+    * allow offering draw
+    * allow resignation
+    * detect draw / resign
+    * update DC to say non-DC player wins
+
+* single player
+    * if isPhone, flip piece orientation (and text) for black's turn
+
+* QOL improvements
+    * show taken pieces
+    * show move history with official chess notation
+    * add undo to single player
+
+FUTURE
+
 * add network dual-screen one board multiplayer
-
-* add network versus
-
-* record all moves
-
-* allow undo
-
-* add advanced draw detection (via repetition, etc.)
-
-* allow offer draw / resign

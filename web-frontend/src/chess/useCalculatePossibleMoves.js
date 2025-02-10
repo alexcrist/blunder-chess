@@ -1,9 +1,9 @@
 import _ from "lodash";
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useTurn } from "../getTurn";
 import { getCoordinate, getFileAndRankIndices } from "./chessCoordinates";
 import chessSlice from "./chessSlice";
+import { useTurn } from "./getTurn";
 
 export const useCalculatePossibleMoves = () => {
     const dispatch = useDispatch();

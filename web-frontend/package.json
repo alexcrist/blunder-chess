@@ -1,11 +1,10 @@
 {
     "type": "module",
-    "homepage": "https://alexcrist.github.io/blunder-chess/",
     "scripts": {
-        "dev": "vite --open",
+        "dev": "vite --open --host",
         "build": "vite build",
         "preview": "vite preview",
-        "deploy": "vite build && gh-pages -d dist"
+        "deploy": "vite build && gh-pages -d dist --cname blunderchess.net"
     },
     "dependencies": {
         "@reduxjs/toolkit": "^2.2.7",

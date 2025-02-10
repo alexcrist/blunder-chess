@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useTurn } from "../../getTurn";
 import { useGameSync } from "../../networking/useGameSync";
 import { useElementLayoutObserver } from "../../util/useElementLayoutObserver";
 import ChessBoard from "../ChessBoard/ChessBoard";
 import chessSlice from "../chessSlice";
+import { useTurn } from "../getTurn";
 import TurnIndicator from "../TurnIndicator/TurnIndicator";
 import styles from "./Chess.module.css";
 

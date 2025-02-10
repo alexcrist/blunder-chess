@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useTurn } from "../getTurn";
 import chessSlice from "./chessSlice";
+import { useTurn } from "./getTurn";
 
 export const useChessBoardMouseHandler = (containerRef) => {
     const dispatch = useDispatch();

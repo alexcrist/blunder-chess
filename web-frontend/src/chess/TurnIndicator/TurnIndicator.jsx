@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useSelector } from "react-redux";
-import { getTurn } from "../../getTurn";
+import { getTurn } from "../getTurn";
 import styles from "./TurnIndicator.module.css";
 
 const TurnIndicator = () => {

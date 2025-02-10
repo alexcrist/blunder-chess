@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useTurn } from "../getTurn";
 import { getFileAndRankIndices } from "./chessCoordinates";
 import chessSlice from "./chessSlice";
+import { useTurn } from "./getTurn";
 import {
     getBoardStateIndices,
     getIsInCheck,
