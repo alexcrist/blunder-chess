@@ -143,7 +143,6 @@ export const useChessBoardMouseHandler = (containerRef) => {
     // Handle mousemove
     useEffect(() => {
         const onMouseMove = ({ x, y }, event) => {
-            event.preventDefault();
             const coordinate = getCoordinateAtPosition(
                 x,
                 y,

@@ -1,5 +1,5 @@
 // prettier-ignore
-export const TURN_ORDERS = {
+const TURN_ORDERS = {
     VERSION_1: [
         "1w",
         "2b", "2w",
@@ -21,3 +21,5 @@ export const TURN_ORDERS = {
         "2w", "2b",
     ],
 };
+
+export const ACTIVE_TURN_ORDER = TURN_ORDERS.VERSION_2;

@@ -14,9 +14,6 @@
 .turn {
     padding: 0 15px;
     opacity: 0.5;
-}
-
-.turn {
     border-right: 1px solid #bbb;
     font-size: 14px;
 }

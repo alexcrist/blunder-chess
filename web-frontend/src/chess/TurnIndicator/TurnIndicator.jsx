@@ -1,14 +1,19 @@
 import classNames from "classnames";
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { getTurn } from "../getTurn";
+import { ACTIVE_TURN_ORDER } from "../turnOrders";
 import styles from "./TurnIndicator.module.css";
 
 const TurnIndicator = () => {
     const globalTurnIndex = useSelector((state) => state.chess.globalTurnIndex);
-    const turns = [];
-    for (let i = 0; i < 30; i++) {
-        turns.push(getTurn(globalTurnIndex + i));
-    }
+    const turns = useMemo(() => {
+        const turns = [];
+        for (let i = 0; i < ACTIVE_TURN_ORDER.length; i++) {
+            turns.push(getTurn(globalTurnIndex + i));
+        }
+        return turns;
+    }, [globalTurnIndex]);
 
     // Get player names
     const player1Name = useSelector((state) => state.chess.player1Name);
