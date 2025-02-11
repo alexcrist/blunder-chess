@@ -18,11 +18,14 @@ TODOS
     * allow resignation
     * detect draw / resign
     * update DC to say non-DC player wins
+    * allow requester to cancel (after 3 seconds)
+    * dont allow re-request for 3 seconds
 
 * single player
     * if isPhone, flip piece orientation (and text) for black's turn
 
 * QOL improvements
+    * add browser navigation (i.e.: back goes back to main menu)
     * show taken pieces
     * show move history with official chess notation
     * add undo to single player

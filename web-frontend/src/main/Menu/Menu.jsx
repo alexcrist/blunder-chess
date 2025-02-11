@@ -17,7 +17,7 @@ const Menu = () => {
     return (
         <div className={styles.container}>
             <CheckboardBackground />
-            <div className={styles.title}>Blunder Chess</div>
+            <div className={styles.title}>blunderchess.net</div>
             <div className={styles.button} onClick={onPlayLocal}>
                 Blunder locally
             </div>
