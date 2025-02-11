@@ -38,8 +38,7 @@
     border-radius: 2px;
     padding: 5px;
     padding-bottom: 10px;
-    width: 400px;
-    max-width: 90%;
+    width: 60%;
 }
 
 .button:active {

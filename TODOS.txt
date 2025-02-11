@@ -10,6 +10,8 @@ TODOS
 
 * change piece images
 
+* add clock (10min?)
+
 * finish network versus
     * only allow moving on your turn
     * set your color to blue, opponent to red
