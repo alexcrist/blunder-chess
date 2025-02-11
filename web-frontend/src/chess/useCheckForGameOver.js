@@ -70,7 +70,7 @@ const getDoAnyMovesExist = (boardState, moveHistory, turn) => {
                     moveHistoryIndices,
                     turn,
                 );
-                if (moves.length > 1) {
+                if (moves.length > 0) {
                     return true;
                 }
             }
