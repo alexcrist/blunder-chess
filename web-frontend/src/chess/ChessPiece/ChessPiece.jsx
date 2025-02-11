@@ -5,15 +5,22 @@ import styles from "./ChessPiece.module.css";
 
 const DRAGGED_SIZE_INCREASE = 1.5;
 
-const ChessPiece = ({ pieceString, coordinate }) => {
-    // Load image
-    const imageSrc = useMemo(
-        () =>
-            new URL(`../../assets/pieces/${pieceString}.png`, import.meta.url)
-                .href,
-        [pieceString],
-    );
+const SPRITE_POSITIONS = {
+    wk: [0, 0],
+    wq: [1, 0],
+    wr: [2, 0],
+    wb: [3, 0],
+    wn: [4, 0],
+    wp: [5, 0],
+    bk: [0, 1],
+    bq: [1, 1],
+    br: [2, 1],
+    bb: [3, 1],
+    bn: [4, 1],
+    bp: [5, 1],
+};
 
+const ChessPiece = ({ pieceString, coordinate }) => {
     // Calculate piece size
     const boardSizePx = useSelector((state) => state.chess.boardSizePx) ?? 0;
     const pieceSizePx = useMemo(() => {
@@ -33,9 +40,12 @@ const ChessPiece = ({ pieceString, coordinate }) => {
 
     // Style piece
     const style = useMemo(() => {
+        const x = SPRITE_POSITIONS[pieceString][0] * -100;
+        const y = SPRITE_POSITIONS[pieceString][1] * -100;
         const style = {
-            width: pieceSizePx,
-            height: pieceSizePx,
+            width: pieceSizePx * 0.9,
+            height: pieceSizePx * 0.9,
+            backgroundPosition: `${x}% ${y}%`,
         };
         if (isBeingDragged) {
             style.width *= DRAGGED_SIZE_INCREASE;
@@ -46,18 +56,24 @@ const ChessPiece = ({ pieceString, coordinate }) => {
             style.top = draggedPieceXY?.y ?? 0;
         }
         return style;
-    }, [draggedPieceXY, isBeingDragged, pieceSizePx]);
+    }, [
+        draggedPieceXY?.x,
+        draggedPieceXY?.y,
+        isBeingDragged,
+        pieceSizePx,
+        pieceString,
+    ]);
 
     return (
-        <img
+        <div
             id={coordinate}
-            src={imageSrc}
             style={style}
             className={classNames(styles.container, {
                 [styles.isBeingDragged]: isBeingDragged,
             })}
-            draggable="false"
-        />
+        >
+            <div className={styles.image} />
+        </div>
     );
 };
 

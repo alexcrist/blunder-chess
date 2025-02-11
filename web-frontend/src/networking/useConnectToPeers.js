@@ -72,7 +72,7 @@ export const useConnectToPeers = () => {
         (peerId, didSendRequest) => {
             const name = _.find(players, { peerId })?.name;
             dispatch(mainSlice.actions.setConnectedPeer({ peerId, name }));
-            dispatch(mainSlice.actions.setIsConnectingToDualScreen(false));
+            dispatch(mainSlice.actions.setIsConnectingToPeer(false));
             dispatch(mainSlice.actions.setIsGameActive(true));
             const [player1Name, player2Name] = getPlayerNames(
                 didSendRequest,

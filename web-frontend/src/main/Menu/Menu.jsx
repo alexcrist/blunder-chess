@@ -11,8 +11,8 @@ const Menu = () => {
         dispatch(chessSlice.actions.setPlayer1Name("Player 1"));
         dispatch(chessSlice.actions.setPlayer2Name("Player 2"));
     };
-    const onPlayDualScreen = () => {
-        dispatch(mainSlice.actions.setIsConnectingToDualScreen(true));
+    const onPlayOnline = () => {
+        dispatch(mainSlice.actions.setIsConnectingToPeer(true));
     };
     return (
         <div className={styles.container}>
@@ -21,8 +21,8 @@ const Menu = () => {
             <div className={styles.button} onClick={onPlayLocal}>
                 Blunder locally
             </div>
-            <div className={styles.button} onClick={onPlayDualScreen}>
-                Blunder dual-screen
+            <div className={styles.button} onClick={onPlayOnline}>
+                Blunder online
             </div>
         </div>
     );

@@ -67,8 +67,8 @@ const ChessBoardSquare = ({ coordinate }) => {
 
     // Calculate label sizes
     const boardSizePx = useSelector((state) => state.chess.boardSizePx) ?? 0;
-    const labelFontSizePx = boardSizePx * 0.022;
-    const labelMarginSizePx = boardSizePx * 0.004;
+    const labelFontSizePx = boardSizePx * 0.02;
+    const labelMarginSizePx = boardSizePx * 0.003;
 
     // Calculate hovered circle size
     const hoveredCircleSizePx = (boardSizePx / 8) * 2;

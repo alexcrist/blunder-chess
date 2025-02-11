@@ -8,14 +8,14 @@ import styles from "./App.module.css";
 
 const App = () => {
     const isGameActive = useSelector((state) => state.main.isGameActive);
-    const isConnectingToDualScreen = useSelector(
-        (state) => state.main.isConnectingToDualScreen,
+    const isConnectingToPeer = useSelector(
+        (state) => state.main.isConnectingToPeer,
     );
 
     let view = <Menu />;
     if (isGameActive) {
         view = <Chess />;
-    } else if (isConnectingToDualScreen) {
+    } else if (isConnectingToPeer) {
         view = <ConnectionMenu />;
     }
 

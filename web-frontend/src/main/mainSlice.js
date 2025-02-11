@@ -6,7 +6,7 @@ const mainSlice = createSlice({
     initialState: {
         name: generateRandomName(),
         isGameActive: false,
-        isConnectingToDualScreen: false,
+        isConnectingToPeer: false,
         connectedPeer: null,
         isPlayer1: false,
     },
@@ -17,8 +17,8 @@ const mainSlice = createSlice({
         setIsGameActive: (state, action) => {
             state.isGameActive = action.payload;
         },
-        setIsConnectingToDualScreen: (state, action) => {
-            state.isConnectingToDualScreen = action.payload;
+        setIsConnectingToPeer: (state, action) => {
+            state.isConnectingToPeer = action.payload;
         },
         setConnectedPeer: (state, action) => {
             state.connectedPeer = action.payload;

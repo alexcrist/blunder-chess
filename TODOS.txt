@@ -8,6 +8,8 @@ TODOS
 
 * update favicon
 
+* change piece images
+
 * finish network versus
     * only allow moving on your turn
     * set your color to blue, opponent to red
