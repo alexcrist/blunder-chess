@@ -41,7 +41,7 @@ const ConnectionMenu = () => {
                 <CheckboardBackground />
                 <div className={styles.content}>
                     <div className={styles.titleContainer}>
-                        <div className={styles.title}>Peers</div>
+                        <div className={styles.title}>Looking for peers...</div>
                         <div className={styles.yourNameContainer}>
                             <div className={styles.yourName}>
                                 Your name: <b>{name}</b>

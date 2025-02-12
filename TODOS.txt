@@ -1,11 +1,11 @@
 TODOS
 
+* add clock (30 seconds per move)
+
 * finish network versus
     * allow offering draw
-    * allow resignation
     * detect draw / resign
-
-* add clock (30 seconds per move)
+    * allow resignation
 
 * add header
 
