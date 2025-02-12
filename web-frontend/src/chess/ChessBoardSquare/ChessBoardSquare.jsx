@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useElementLayoutObserver } from "../../util/useElementLayoutObserver";
 import ChessPiece from "../ChessPiece/ChessPiece";
 import chessSlice from "../chessSlice";
+import { useShouldSpinBoard } from "../useShouldSpinBoard";
 import styles from "./ChessBoardSquare.module.css";
 
 const ChessBoardSquare = ({ coordinate }) => {
@@ -78,6 +79,15 @@ const ChessBoardSquare = ({ coordinate }) => {
     const possibleMoveOccupiedSizePx = boardSizePx / 8;
     const possibleMoveOccupiedBorderWidthPx = (boardSizePx / 8) * 0.12;
 
+    // Determine if square should be spun 180°
+    const shouldSpinBoard = useShouldSpinBoard();
+    const shouldShowFileLabel =
+        (fileIndex === 0 && !shouldSpinBoard) ||
+        (fileIndex === 7 && shouldSpinBoard);
+    const shouldShowRankLabel =
+        (rankIndex === 0 && !shouldSpinBoard) ||
+        (rankIndex === 7 && shouldSpinBoard);
+
     return (
         <div
             ref={containerRef}
@@ -90,7 +100,7 @@ const ChessBoardSquare = ({ coordinate }) => {
             {pieceString && (
                 <ChessPiece pieceString={pieceString} coordinate={coordinate} />
             )}
-            {fileIndex === 0 && (
+            {shouldShowFileLabel && (
                 <div
                     className={styles.fileLabel}
                     style={{
@@ -102,7 +112,7 @@ const ChessBoardSquare = ({ coordinate }) => {
                     {rank}
                 </div>
             )}
-            {rankIndex === 0 && (
+            {shouldShowRankLabel && (
                 <div
                     className={styles.rankLabel}
                     style={{

@@ -16,26 +16,7 @@ export const useNavigation = () => {
     const view = useSelector((state) => state.main.view);
     const dispatch = useDispatch();
     useEffect(() => {
-        const handlePopState = () => {
-            console.log("pop");
-            if (window.onbeforeunload) {
-                const isSure = window.confirm(
-                    "Are you sure you want to navigate away?",
-                );
-                if (isSure) {
-                    dispatch(mainSlice.actions.updateView());
-                } else {
-                    // Note: browsers don't love when you pushState when the user
-                    // is trying to popState. On the user's second attempted popState,
-                    // the browser will pop multiple states (to prevent the site from
-                    // trapping the user). So the user may end up navigating away
-                    // from blunderchess.net altogether
-                    history.pushState({}, "", view);
-                }
-            } else {
-                dispatch(mainSlice.actions.updateView());
-            }
-        };
+        const handlePopState = () => dispatch(mainSlice.actions.updateView());
         window.addEventListener("popstate", handlePopState);
         return () => window.removeEventListener("popstate", handlePopState);
     }, [dispatch, view]);
@@ -89,6 +70,7 @@ export const useNavigateToGameOnline = () => {
     const navigateTo = useNavigateTo();
     return useCallback(
         ({ connectedPeer, isPlayer1, player1Name, player2Name }) => {
+            dispatch(mainSlice.actions.setIsOnlineGame(true));
             dispatch(mainSlice.actions.setConnectedPeer(connectedPeer));
             dispatch(mainSlice.actions.setIsPlayer1(isPlayer1));
             dispatch(chessSlice.actions.setPlayer1Name(player1Name));

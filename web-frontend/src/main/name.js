@@ -45,7 +45,7 @@ const NAMES = [
     "Victoria",
 ];
 
-export const generateRandomName = () => {
+const generateName = () => {
     const name1 = NAMES[Math.floor(Math.random() * NAMES.length)];
     const name2 = NAMES[Math.floor(Math.random() * NAMES.length)];
     const split1 = Math.floor(name1.length / 2);
@@ -53,4 +53,20 @@ export const generateRandomName = () => {
     const part1 = name1.slice(0, split1);
     const part2 = name2.slice(split2);
     return part1 + part2;
+};
+
+const LOCAL_STORAGE_KEY = "player-name";
+
+export const getName = () => {
+    return generateName();
+    // let name = localStorage.getItem(LOCAL_STORAGE_KEY);
+    // if (!name) {
+    //     name = generateName();
+    //     setName(name);
+    // }
+    // return name;
+};
+
+export const setName = (name) => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, name);
 };

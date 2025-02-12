@@ -1,14 +1,19 @@
 TODOS
 
-* update favicon
+* dont allow re-request for 3 seconds
 
-* change piece images
+* update DC to say non-DC player wins
 
-* add link to code (maybe desktop only)
+* finish network versus
+    * allow offering draw
+    * allow resignation
+    * detect draw / resign
 
-* add clock (10min?)
+* add clock (30 seconds per move)
 
 * add header
+
+* add link to code (maybe desktop only)
 
 * add extras to menu
     * attributions
@@ -16,26 +21,22 @@ TODOS
     * buy me a coffee
     * leave feedback
 
-* finish network versus
-    * only allow moving on your turn
-    * set your color to blue, opponent to red
-    * flip board if player2
-    * allow offering draw
-    * allow resignation
-    * detect draw / resign
-    * update DC to say non-DC player wins
-    * allow requester to cancel (after 3 seconds)
-    * dont allow re-request for 3 seconds
-
 * single player
     * if isPhone, flip piece orientation (and text) for black's turn
 
 * QOL improvements
-    * show taken pieces
-    * show move history with official chess notation
-    * add undo to single player
-
 
 FUTURE
 
-* add network dual-screen one board multiplayer
+* Allow offering 'Go normal mode'
+
+* Show taken pieces
+
+* Show move history (in official chess notation)
+
+* Add undo to single player
+
+* Add network dual-screen one board multiplayer
+
+* Handle online edge-case where players cancel and accept match
+    simultaneously

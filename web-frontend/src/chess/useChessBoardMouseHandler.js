@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import chessSlice from "./chessSlice";
 import { useTurn } from "./getTurn";
+import { useCanMakeMove } from "./useCanMakeMove";
 
 export const useChessBoardMouseHandler = (containerRef) => {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export const useChessBoardMouseHandler = (containerRef) => {
     const boardState = useSelector((state) => state.chess.boardState);
     const getIsValidMove = useGetIsValidMove();
     const turn = useTurn();
+    const canMakeMove = useCanMakeMove();
 
     // Handle mousedown
     useEffect(() => {
@@ -25,6 +27,9 @@ export const useChessBoardMouseHandler = (containerRef) => {
             containerRef.current,
             forwardMouseCoords(({ x, y }, event) => {
                 event.preventDefault();
+                if (!canMakeMove) {
+                    return;
+                }
                 dispatch(chessSlice.actions.setIsMouseDown(true));
 
                 // User touched off the board
@@ -133,6 +138,7 @@ export const useChessBoardMouseHandler = (containerRef) => {
     }, [
         boardSquaresBounds,
         boardState,
+        canMakeMove,
         containerRef,
         dispatch,
         getIsValidMove,
@@ -142,7 +148,10 @@ export const useChessBoardMouseHandler = (containerRef) => {
 
     // Handle mousemove
     useEffect(() => {
-        const onMouseMove = ({ x, y }, event) => {
+        const onMouseMove = ({ x, y }) => {
+            if (!canMakeMove) {
+                return;
+            }
             const coordinate = getCoordinateAtPosition(
                 x,
                 y,
@@ -154,18 +163,27 @@ export const useChessBoardMouseHandler = (containerRef) => {
             }
         };
         return addMouseMoveListener(onMouseMove);
-    }, [boardSquaresBounds, dispatch, isMouseDown, sourceCoordinate]);
+    }, [
+        boardSquaresBounds,
+        canMakeMove,
+        dispatch,
+        isMouseDown,
+        sourceCoordinate,
+    ]);
 
     // Handle mouseup
     useEffect(() => {
         const onMouseUp = ({ x, y }) => {
             dispatch(chessSlice.actions.setIsMouseDown(false));
+            dispatch(chessSlice.actions.setHoveredCoordinate(null));
+            if (!canMakeMove) {
+                return;
+            }
             const coordinate = getCoordinateAtPosition(
                 x,
                 y,
                 boardSquaresBounds,
             );
-            dispatch(chessSlice.actions.setHoveredCoordinate(null));
 
             // User performed a drag-move
             if (
@@ -181,7 +199,13 @@ export const useChessBoardMouseHandler = (containerRef) => {
             }
         };
         return addMouseUpListener(onMouseUp);
-    }, [boardSquaresBounds, dispatch, getIsValidMove, sourceCoordinate]);
+    }, [
+        boardSquaresBounds,
+        canMakeMove,
+        dispatch,
+        getIsValidMove,
+        sourceCoordinate,
+    ]);
 };
 
 export const getCoordinateAtPosition = (x, y, boardSquareBounds) => {

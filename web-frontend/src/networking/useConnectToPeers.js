@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import mainSlice from "../main/mainSlice";
 import { useNavigateToGameOnline } from "../main/useNavigation";
 import {
     addNetworkMessageHandler,
@@ -16,6 +17,10 @@ const DUAL_SCREEN_SEARCH_CANCEL = "DUAL_SCREEN_SEARCH_CANCEL";
 const DUAL_SCREEN_MATCH_REQUEST = "DUAL_SCREEN_MATCH_REQUEST";
 const DUAL_SCREEN_MATCH_ACCEPT = "DUAL_SCREEN_MATCH_ACCEPT";
 const DUAL_SCREEN_MATCH_REJECT = "DUAL_SCREEN_MATCH_REJECT";
+
+const PEER_NAME_CHANGE = "PEER_NAME_CHANGE";
+
+const REQUEST_COOLDOWN_MS = 5000;
 
 export const useConnectToPeers = () => {
     const name = useSelector((state) => state.main.name);
@@ -37,6 +42,18 @@ export const useConnectToPeers = () => {
             const newPlayers = players.filter(
                 (player) => peerId !== player.peerId,
             );
+            setPlayers(newPlayers);
+        },
+        [players],
+    );
+    const updatePlayer = useCallback(
+        (peerId, { update }) => {
+            const newPlayers = players.map((player) => {
+                if (player.peerId === peerId) {
+                    return { ...player, ...update };
+                }
+                return player;
+            });
             setPlayers(newPlayers);
         },
         [players],
@@ -87,13 +104,21 @@ export const useConnectToPeers = () => {
     );
 
     // Match with other player
-    const requestMatch = useCallback((peerId) => {
-        setPeerIdOfInboundReq(null);
-        setPeerIdOfOutboundReq(peerId);
-        const isHeads = Math.random() > 0.5;
-        setIsHeads(isHeads);
-        sendMessageToPeer(peerId, DUAL_SCREEN_MATCH_REQUEST, { isHeads });
-    }, []);
+    const dispatch = useDispatch();
+    const requestMatch = useCallback(
+        (peerId) => {
+            setPeerIdOfInboundReq(null);
+            setPeerIdOfOutboundReq(peerId);
+            const isHeads = Math.random() > 0.5;
+            setIsHeads(isHeads);
+            sendMessageToPeer(peerId, DUAL_SCREEN_MATCH_REQUEST, { isHeads });
+            dispatch(mainSlice.actions.setIsOnRequestCooldown(true));
+            setTimeout(() => {
+                dispatch(mainSlice.actions.setIsOnRequestCooldown(false));
+            }, REQUEST_COOLDOWN_MS);
+        },
+        [dispatch],
+    );
     const acceptMatch = useCallback(
         (peerId) => {
             onAcceptMatch(peerId, false);
@@ -148,6 +173,9 @@ export const useConnectToPeers = () => {
             [DUAL_SCREEN_MATCH_REJECT]: (message, peerId) => {
                 onRejectMatch(peerId);
             },
+            [PEER_NAME_CHANGE]: (message, peerId) => {
+                updatePlayer(peerId, { name: message.payload.name });
+            },
         };
         const cleanUpFns = Object.entries(handlers).map(
             ([messageType, handlerFn]) => {
@@ -163,12 +191,18 @@ export const useConnectToPeers = () => {
         peerIdOfInboundReq,
         peerIdOfOutboundReq,
         removePlayer,
+        updatePlayer,
     ]);
 
     // Send search request to peers
     useEffect(() => {
         sendMessageToPeers(DUAL_SCREEN_SEARCH_REQUEST, { name });
         return () => sendMessageToPeers(DUAL_SCREEN_SEARCH_CANCEL);
+    }, [name]);
+
+    // Broadcast a name change
+    const broadcastNameChange = useCallback(() => {
+        sendMessageToPeers(PEER_NAME_CHANGE, { name });
     }, [name]);
 
     return {
@@ -178,5 +212,6 @@ export const useConnectToPeers = () => {
         rejectMatch,
         peerIdOfInboundReq,
         peerIdOfOutboundReq,
+        broadcastNameChange,
     };
 };

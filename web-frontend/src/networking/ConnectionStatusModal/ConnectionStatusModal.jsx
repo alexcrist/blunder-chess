@@ -4,7 +4,7 @@ import styles from "./ConnectionStatusModal.module.css";
 
 const ConnectionStatusModal = ({
     players,
-    confirmMatch,
+    acceptMatch,
     rejectMatch,
     peerIdOfInboundReq,
     peerIdOfOutboundReq,
@@ -21,7 +21,7 @@ const ConnectionStatusModal = ({
                 <div className={styles.buttons}>
                     <div
                         className={styles.button}
-                        onClick={() => confirmMatch(peerIdOfInboundReq)}
+                        onClick={() => acceptMatch(peerIdOfInboundReq)}
                     >
                         Accept
                     </div>
@@ -40,6 +40,14 @@ const ConnectionStatusModal = ({
             <>
                 <div className={styles.title}>
                     Game request sent to {peerName}...
+                </div>
+                <div className={styles.buttons}>
+                    <div
+                        className={styles.button}
+                        onClick={() => rejectMatch(peerIdOfOutboundReq)}
+                    >
+                        Cancel
+                    </div>
                 </div>
             </>
         );

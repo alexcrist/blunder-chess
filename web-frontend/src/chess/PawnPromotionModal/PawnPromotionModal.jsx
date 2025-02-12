@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ChessPiece from "../ChessPiece/ChessPiece";
 import chessSlice from "../chessSlice";
 import Modal from "../Modal/Modal";
+import { useCanMakeMove } from "../useCanMakeMove";
 import styles from "./PawnPromotionModal.module.css";
 
 const PawnPromotionModal = () => {
@@ -22,8 +23,12 @@ const PawnPromotionModal = () => {
         return piece[0];
     }, [boardState, moveHistory]);
 
-    // Determine if promoting
+    // Determine if modal should be visible
     const isPromotingPawn = useSelector((state) => state.chess.isPromotingPawn);
+    const canMakeMove = useCanMakeMove();
+    const isVisible = useMemo(() => {
+        return isPromotingPawn && canMakeMove;
+    }, [canMakeMove, isPromotingPawn]);
 
     // On promotion
     const dispatch = useDispatch();
@@ -55,7 +60,7 @@ const PawnPromotionModal = () => {
     }, [onChoosePromotion, pieceColor]);
 
     return (
-        <Modal isVisible={isPromotingPawn} className={styles.container}>
+        <Modal isVisible={isVisible} className={styles.container}>
             {promotionOptions}
         </Modal>
     );

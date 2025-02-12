@@ -2,10 +2,12 @@ import { useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import ChessBoardSquare from "../ChessBoardSquare/ChessBoardSquare";
 import { useChessBoardMouseHandler } from "../useChessBoardMouseHandler";
+import { useShouldSpinBoard } from "../useShouldSpinBoard";
 import styles from "./ChessBoard.module.css";
 
 const ChessBoard = () => {
     // Calculate board square coordinates (a1, b1, etc.)
+    const shouldSpinBoard = useShouldSpinBoard();
     const coordinates = useMemo(() => {
         const coordinates = [];
         for (let rankIndex = 0; rankIndex < 8; rankIndex++) {
@@ -16,10 +18,16 @@ const ChessBoard = () => {
                 const coordinate = file + rank;
                 row.push(coordinate);
             }
+            if (shouldSpinBoard) {
+                row.reverse();
+            }
             coordinates.push(row);
         }
+        if (shouldSpinBoard) {
+            coordinates.reverse();
+        }
         return coordinates;
-    }, []);
+    }, [shouldSpinBoard]);
 
     // Get board size
     const boardSizePx = useSelector((state) => state.chess.boardSizePx) ?? 0;

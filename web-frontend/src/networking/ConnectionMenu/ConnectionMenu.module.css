@@ -3,16 +3,37 @@
     flex-direction: column;
 }
 
-.title {
-    font-family: "Rock 3D", serif;
-    font-size: 36px;
-    font-weight: 700;
+.titleContainer {
     text-align: center;
     background-color: var(--dark-primary-color);
     padding: 10px;
     margin: 40px 0 40px;
     color: white;
     border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    font-family: "Rock 3D", serif;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.yourNameContainer {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.yourName {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.editName {
+    opacity: 0.7;
 }
 
 .content {

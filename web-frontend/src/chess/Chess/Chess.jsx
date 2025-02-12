@@ -9,35 +9,19 @@ import { useTurn } from "../getTurn";
 import TurnIndicator from "../TurnIndicator/TurnIndicator";
 import { useCalculatePossibleMoves } from "../useCalculatePossibleMoves";
 import { useCheckForGameOver } from "../useCheckForGameOver";
+import { useShouldSpinBoard } from "../useShouldSpinBoard";
 import styles from "./Chess.module.css";
 
 const Chess = () => {
     // Sync game state with peer (if applicable)
-    const isConnectedToPeer = useGameSync();
+    useGameSync();
 
     // Calculate possible moves
     useCalculatePossibleMoves();
 
     // Check for win / tie
     useCheckForGameOver();
-    const winner = useSelector((state) => state.chess.winner);
-    const isTie = useSelector((state) => state.chess.isTie);
 
-    // If online match, warn user if they navigate away while peer is connected and while
-    // game is ongoing
-    const isOnlineGame = useSelector((state) => state.main.isOnlineGame);
-    const moveHistory = useSelector((state) => state.chess.moveHistory);
-    useEffect(() => {
-        const isGameOver = winner !== null || isTie;
-        const didPeerDisconnect = isOnlineGame && !isConnectedToPeer;
-        const isZeroMoveLocalGame = !isOnlineGame && moveHistory.length === 0;
-        if (!didPeerDisconnect && !isGameOver && !isZeroMoveLocalGame) {
-            window.onbeforeunload = () => true;
-            return () => (window.onbeforeunload = null);
-        }
-    }, [isConnectedToPeer, isOnlineGame, isTie, moveHistory.length, winner]);
-
-    // Set board size
     const dispatch = useDispatch();
     const boardContainerRef = useRef(null);
     const onBoardLayoutChange = useCallback(
@@ -76,21 +60,33 @@ const Chess = () => {
     const player1Name = useSelector((state) => state.chess.player1Name);
     const player2Name = useSelector((state) => state.chess.player2Name);
 
+    // Should the board be spun 180°
+    const shouldSpinBoard = useShouldSpinBoard();
+    const player1 = (
+        <div className={classNames(styles.player, styles.player1)}>
+            <div className={styles.color} />
+            <div className={styles.name}>{player1Name}</div>
+            {activePlayer === "1" && turnElement}
+        </div>
+    );
+    const player2 = (
+        <div className={classNames(styles.player, styles.player2)}>
+            <div className={styles.color} />
+            <div className={styles.name}>{player2Name}</div>
+            {activePlayer === "2" && turnElement}
+        </div>
+    );
+
     return (
         <div className={styles.container}>
             <div className={styles.spacer} />
-            <div className={styles.boardContainer} ref={boardContainerRef}>
-                <div className={classNames(styles.player, styles.player2)}>
-                    <div className={styles.color} />
-                    <div className={styles.name}>{player2Name}</div>
-                    {activePlayer === "2" && turnElement}
-                </div>
+            <div
+                className={classNames(styles.boardContainer, {})}
+                ref={boardContainerRef}
+            >
+                {shouldSpinBoard ? player1 : player2}
                 <ChessBoard />
-                <div className={classNames(styles.player, styles.player1)}>
-                    <div className={styles.color} />
-                    <div className={styles.name}>{player1Name}</div>
-                    {activePlayer === "1" && turnElement}
-                </div>
+                {shouldSpinBoard ? player2 : player1}
             </div>
             <div className={styles.spacer} />
             <TurnIndicator />

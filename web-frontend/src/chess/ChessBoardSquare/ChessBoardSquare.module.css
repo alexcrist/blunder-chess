@@ -47,7 +47,7 @@
 }
 
 .hoverCircle {
-    z-index: 2;
+    z-index: 5;
     position: absolute;
     border-radius: 50%;
     background-color: #00000033;

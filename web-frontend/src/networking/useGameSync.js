@@ -78,14 +78,12 @@ export const useGameSync = () => {
     }, [connectedPeer, dispatch]);
     const [showedDisconnectedMessage, setShowedDisconnectedMessage] =
         useState(false);
-    const [isConnectedToPeer, setIsConnectedToPeer] = useState(true);
     useEffect(() => {
         if (connectedPeer) {
             return addPeerMessageHandler(
                 connectedPeer.peerId,
                 PEER_DISCONNECT_MESSAGE_TYPE,
                 () => {
-                    setIsConnectedToPeer(false);
                     if (!showedDisconnectedMessage) {
                         setShowedDisconnectedMessage(true);
                         alert(`${connectedPeer.name} disconnected.`);
@@ -94,6 +92,4 @@ export const useGameSync = () => {
             );
         }
     }, [connectedPeer, showedDisconnectedMessage]);
-
-    return isConnectedToPeer;
 };
