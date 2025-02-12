@@ -1,0 +1,19 @@
+.container {
+    padding: 10px;
+    background-color: var(--dark-primary-color);
+    color: white;
+    border-radius: 2px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.container:active:not(.isDisabled) {
+    background-color: black;
+    color: #bbb;
+}
+
+.container.isDisabled {
+    background-color: #666;
+    color: #999;
+    cursor: default;
+}

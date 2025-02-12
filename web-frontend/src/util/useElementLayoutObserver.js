@@ -15,7 +15,10 @@ export const useElementLayoutObserver = (ref, rawHandler) => {
         };
         handler();
         window.addEventListener("resize", handler);
+        const resizeObserver = new ResizeObserver(handler);
+        resizeObserver.observe(ref.current);
         return () => {
+            resizeObserver.disconnect();
             window.removeEventListener("resize", handler);
         };
     }, [rawHandler, ref]);

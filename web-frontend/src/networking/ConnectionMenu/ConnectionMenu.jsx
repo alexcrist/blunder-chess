@@ -1,5 +1,6 @@
 import { FaPen } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import Button from "../../main/Button/Button";
 import CheckboardBackground from "../../main/CheckboardBackground/CheckboardBackground";
 import mainSlice from "../../main/mainSlice";
 import ConnectionStatusModal from "../ConnectionStatusModal/ConnectionStatusModal";
@@ -11,6 +12,9 @@ const MAX_NAME_LENGTH = 50;
 const ConnectionMenu = () => {
     const dispatch = useDispatch();
     const name = useSelector((state) => state.main.name);
+    const isOnRequestCooldown = useSelector(
+        (state) => state.main.isOnRequestCooldown,
+    );
     const {
         players,
         requestMatch,
@@ -50,19 +54,19 @@ const ConnectionMenu = () => {
                         </div>
                     </div>
                     <div className={styles.players}>
-                        {players.map((player, index) => {
+                        {players.map((player) => {
                             const onClickPlayer = () => {
-                                // TODO: if not on cooldown
                                 requestMatch(player.peerId);
                             };
                             return (
-                                <div
-                                    key={index}
+                                <Button
+                                    key={player.peerId}
                                     className={styles.player}
                                     onClick={onClickPlayer}
+                                    isDisabled={isOnRequestCooldown}
                                 >
                                     {player.name}
-                                </div>
+                                </Button>
                             );
                         })}
                     </div>

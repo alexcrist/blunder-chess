@@ -10,6 +10,7 @@ const mainSlice = createSlice({
         connectedPeer: null,
         isPlayer1: false,
         isOnRequestCooldown: false,
+        didPeerDisconnect: false,
     },
     reducers: {
         setName: (state, action) => {
@@ -30,6 +31,9 @@ const mainSlice = createSlice({
         },
         setIsOnRequestCooldown: (state, action) => {
             state.isOnRequestCooldown = action.payload;
+        },
+        setDidPeerDisconnect: (state, action) => {
+            state.didPeerDisconnect = action.payload;
         },
     },
 });

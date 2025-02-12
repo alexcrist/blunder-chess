@@ -8,7 +8,7 @@ const APPLICATION_ID = "blunder-chess";
 export const PEER_DISCONNECT_MESSAGE_TYPE = "disconnect";
 const HEALTH_CHECK_MESSAGE_TYPE = "healthcheck";
 const HEALTH_CHECK_FREQ_MS = 1000;
-const HEALTH_CHECK_TIMEOUT_MS = 60000;
+const HEALTH_CHECK_TIMEOUT_MS = 3000;
 
 let id = null;
 let peerConnections = {};
@@ -126,5 +126,12 @@ const handleMessage = (message, peerId) => {
     const handlerFns = Object.values(messageHandlers);
     for (const handlerFn of handlerFns) {
         handlerFn(_.cloneDeep(message), peerId);
+    }
+};
+
+export const disconnectFromPeer = (peerId) => {
+    const connection = peerConnections[peerId];
+    if (connection) {
+        connection.close();
     }
 };

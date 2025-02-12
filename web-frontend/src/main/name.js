@@ -32,7 +32,6 @@ const NAMES = [
     "Alice",
     "Harry",
     "Molly",
-    "Eugene",
     "Donna",
     "Patrick",
     "Tina",
@@ -48,8 +47,8 @@ const NAMES = [
 const generateName = () => {
     const name1 = NAMES[Math.floor(Math.random() * NAMES.length)];
     const name2 = NAMES[Math.floor(Math.random() * NAMES.length)];
-    const split1 = Math.floor(name1.length / 2);
-    const split2 = Math.floor(name2.length / 2);
+    const split1 = Math.ceil(name1.length / 2);
+    const split2 = Math.ceil(name2.length / 2);
     const part1 = name1.slice(0, split1);
     const part2 = name2.slice(split2);
     return part1 + part2;

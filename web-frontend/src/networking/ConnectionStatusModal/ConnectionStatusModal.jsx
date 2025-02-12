@@ -1,5 +1,6 @@
 import _ from "lodash";
 import Modal from "../../chess/Modal/Modal";
+import Button from "../../main/Button/Button";
 import styles from "./ConnectionStatusModal.module.css";
 
 const ConnectionStatusModal = ({
@@ -19,18 +20,18 @@ const ConnectionStatusModal = ({
                     Incoming game request from {peerName}!
                 </div>
                 <div className={styles.buttons}>
-                    <div
+                    <Button
                         className={styles.button}
                         onClick={() => acceptMatch(peerIdOfInboundReq)}
                     >
                         Accept
-                    </div>
-                    <div
+                    </Button>
+                    <Button
                         className={styles.button}
                         onClick={() => rejectMatch(peerIdOfInboundReq)}
                     >
                         Reject
-                    </div>
+                    </Button>
                 </div>
             </>
         );
@@ -42,12 +43,12 @@ const ConnectionStatusModal = ({
                     Game request sent to {peerName}...
                 </div>
                 <div className={styles.buttons}>
-                    <div
+                    <Button
                         className={styles.button}
                         onClick={() => rejectMatch(peerIdOfOutboundReq)}
                     >
                         Cancel
-                    </div>
+                    </Button>
                 </div>
             </>
         );

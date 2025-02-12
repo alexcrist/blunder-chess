@@ -18,7 +18,6 @@ const validateTurnOrder = (turnOrder) => {
     if (playerTurns["1"].length === 0 || playerTurns["2"].length === 0) {
         throw Error("A player cannot have zero turns.");
     }
-    console.log("playerTurns", playerTurns);
     if (playerTurns["1"].length !== playerTurns["2"].length) {
         throw Error("Players must be given the same amount of turns.");
     }

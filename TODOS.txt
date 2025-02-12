@@ -1,9 +1,5 @@
 TODOS
 
-* dont allow re-request for 3 seconds
-
-* update DC to say non-DC player wins
-
 * finish network versus
     * allow offering draw
     * allow resignation
@@ -26,6 +22,10 @@ TODOS
 
 * QOL improvements
 
+TEST
+
+* multiple games simultaneously
+
 FUTURE
 
 * Allow offering 'Go normal mode'
@@ -40,3 +40,5 @@ FUTURE
 
 * Handle online edge-case where players cancel and accept match
     simultaneously
+
+* Refactor navigation

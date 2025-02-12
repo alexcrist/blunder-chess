@@ -44,13 +44,8 @@
 }
 
 .player {
-    background-color: var(--dark-primary-color);
-    padding: 10px;
     margin-bottom: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
     border-radius: 2px;
-    color: white;
-    border-radius: 2px;
-    font-size: 20px;
 }

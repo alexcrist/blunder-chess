@@ -1,7 +1,8 @@
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import chessSlice from "../chess/chessSlice";
+import mainSlice from "../main/mainSlice";
 import {
     addPeerMessageHandler,
     PEER_DISCONNECT_MESSAGE_TYPE,
@@ -76,20 +77,15 @@ export const useGameSync = () => {
             );
         }
     }, [connectedPeer, dispatch]);
-    const [showedDisconnectedMessage, setShowedDisconnectedMessage] =
-        useState(false);
     useEffect(() => {
         if (connectedPeer) {
             return addPeerMessageHandler(
                 connectedPeer.peerId,
                 PEER_DISCONNECT_MESSAGE_TYPE,
                 () => {
-                    if (!showedDisconnectedMessage) {
-                        setShowedDisconnectedMessage(true);
-                        alert(`${connectedPeer.name} disconnected.`);
-                    }
+                    dispatch(mainSlice.actions.setDidPeerDisconnect(true));
                 },
             );
         }
-    }, [connectedPeer, showedDisconnectedMessage]);
+    }, [connectedPeer, dispatch]);
 };

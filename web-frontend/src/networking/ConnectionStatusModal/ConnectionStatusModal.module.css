@@ -15,14 +15,5 @@
 }
 
 .button {
-    padding: 10px;
-    background-color: var(--dark-primary-color);
-    color: white;
-    border-radius: 2px;
     width: 35%;
-    text-align: center;
-}
-
-.button:active {
-    opacity: 0.5;
 }

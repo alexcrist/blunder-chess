@@ -14,14 +14,15 @@
 .buttons {
     display: flex;
     align-items: center;
+    justify-content: space-around;
 }
 
 .button {
     width: 80px;
     margin: 0 5px;
     text-align: center;
-    border: 1px solid #333;
     padding: 5px;
     border-radius: 2px;
     cursor: pointer;
+    width: 35%;
 }
