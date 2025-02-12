@@ -8,7 +8,7 @@ const APPLICATION_ID = "blunder-chess";
 export const PEER_DISCONNECT_MESSAGE_TYPE = "disconnect";
 const HEALTH_CHECK_MESSAGE_TYPE = "healthcheck";
 const HEALTH_CHECK_FREQ_MS = 1000;
-const HEALTH_CHECK_TIMEOUT_MS = 4000;
+const HEALTH_CHECK_TIMEOUT_MS = 60000;
 
 let id = null;
 let peerConnections = {};
@@ -104,7 +104,7 @@ export const sendMessageToPeer = async (peerId, type, payload) => {
     }
 };
 
-export const addPeerMessageHandler = (messageType, handlerFn) => {
+export const addNetworkMessageHandler = (messageType, handlerFn) => {
     const handlerId = Math.random().toString();
     messageHandlers[handlerId] = (message, peerId) => {
         if (message.type === messageType) {
@@ -112,6 +112,14 @@ export const addPeerMessageHandler = (messageType, handlerFn) => {
         }
     };
     return () => delete messageHandlers[handlerId];
+};
+
+export const addPeerMessageHandler = (peerId, messageType, handlerFn) => {
+    addNetworkMessageHandler(messageType, (message, somePeerId) => {
+        if (somePeerId === peerId) {
+            handlerFn(message, peerId);
+        }
+    });
 };
 
 const handleMessage = (message, peerId) => {

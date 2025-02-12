@@ -1,8 +1,6 @@
 import { useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import ChessBoardSquare from "../ChessBoardSquare/ChessBoardSquare";
-import { useCalculatePossibleMoves } from "../useCalculatePossibleMoves";
-import { useCheckForGameOver } from "../useCheckForGameOver";
 import { useChessBoardMouseHandler } from "../useChessBoardMouseHandler";
 import styles from "./ChessBoard.module.css";
 
@@ -29,12 +27,6 @@ const ChessBoard = () => {
     // Handle mouse events
     const containerRef = useRef(null);
     useChessBoardMouseHandler(containerRef);
-
-    // Calculate possible moves
-    useCalculatePossibleMoves();
-
-    // Check for win / tie
-    useCheckForGameOver();
 
     return (
         <div

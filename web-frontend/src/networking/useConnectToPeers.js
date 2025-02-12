@@ -1,10 +1,9 @@
 import _ from "lodash";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import chessSlice from "../chess/chessSlice";
-import mainSlice from "../main/mainSlice";
+import { useSelector } from "react-redux";
+import { useNavigateToGameOnline } from "../main/useNavigation";
 import {
-    addPeerMessageHandler,
+    addNetworkMessageHandler,
     PEER_DISCONNECT_MESSAGE_TYPE,
     sendMessageToPeer,
     sendMessageToPeers,
@@ -15,7 +14,7 @@ const DUAL_SCREEN_SEARCH_CONFIRM = "DUAL_SCREEN_SEARCH_CONFIRM";
 const DUAL_SCREEN_SEARCH_CANCEL = "DUAL_SCREEN_SEARCH_CANCEL";
 
 const DUAL_SCREEN_MATCH_REQUEST = "DUAL_SCREEN_MATCH_REQUEST";
-const DUAL_SCREEN_MATCH_CONFIRM = "DUAL_SCREEN_MATCH_CONFIRM";
+const DUAL_SCREEN_MATCH_ACCEPT = "DUAL_SCREEN_MATCH_ACCEPT";
 const DUAL_SCREEN_MATCH_REJECT = "DUAL_SCREEN_MATCH_REJECT";
 
 export const useConnectToPeers = () => {
@@ -47,41 +46,31 @@ export const useConnectToPeers = () => {
     const [peerIdOfOutboundReq, setPeerIdOfOutboundReq] = useState(null);
     const [peerIdOfInboundReq, setPeerIdOfInboundReq] = useState(null);
     const [isHeads, setIsHeads] = useState(false);
-    const getPlayerNames = useCallback(
-        (didSendRequest, peerName) => {
-            if (didSendRequest) {
-                if (isHeads) {
-                    return [peerName, name];
-                } else {
-                    return [name, peerName];
-                }
-            } else {
-                if (isHeads) {
-                    return [name, peerName];
-                } else {
-                    return [peerName, name];
-                }
-            }
+    const getIsPlayer1 = useCallback(
+        (didSendRequest) => {
+            return (didSendRequest && isHeads) || (!didSendRequest && !isHeads);
         },
-        [isHeads, name],
+        [isHeads],
     );
 
     // Upon confirming match with a peer
-    const dispatch = useDispatch();
-    const onConfirmMatch = useCallback(
+    const navigateToGameOnline = useNavigateToGameOnline();
+    const onAcceptMatch = useCallback(
         (peerId, didSendRequest) => {
-            const name = _.find(players, { peerId })?.name;
-            dispatch(mainSlice.actions.setConnectedPeer({ peerId, name }));
-            dispatch(mainSlice.actions.setIsConnectingToPeer(false));
-            dispatch(mainSlice.actions.setIsGameActive(true));
-            const [player1Name, player2Name] = getPlayerNames(
-                didSendRequest,
-                name,
-            );
-            dispatch(chessSlice.actions.setPlayer1Name(player1Name));
-            dispatch(chessSlice.actions.setPlayer2Name(player2Name));
+            const peerName = _.find(players, { peerId })?.name;
+            const connectedPeer = { peerId, name };
+            const isPlayer1 = getIsPlayer1(didSendRequest);
+            const [player1Name, player2Name] = isPlayer1
+                ? [name, peerName]
+                : [peerName, name];
+            navigateToGameOnline({
+                connectedPeer,
+                isPlayer1,
+                player1Name,
+                player2Name,
+            });
         },
-        [dispatch, getPlayerNames, players],
+        [getIsPlayer1, name, navigateToGameOnline, players],
     );
 
     // Upon rejecting match with a peer
@@ -105,12 +94,12 @@ export const useConnectToPeers = () => {
         setIsHeads(isHeads);
         sendMessageToPeer(peerId, DUAL_SCREEN_MATCH_REQUEST, { isHeads });
     }, []);
-    const confirmMatch = useCallback(
+    const acceptMatch = useCallback(
         (peerId) => {
-            onConfirmMatch(peerId, false);
-            sendMessageToPeer(peerId, DUAL_SCREEN_MATCH_CONFIRM);
+            onAcceptMatch(peerId, false);
+            sendMessageToPeer(peerId, DUAL_SCREEN_MATCH_ACCEPT);
         },
-        [onConfirmMatch],
+        [onAcceptMatch],
     );
     const rejectMatch = useCallback(
         (peerId) => {
@@ -153,8 +142,8 @@ export const useConnectToPeers = () => {
                     setIsHeads(message.payload.isHeads);
                 }
             },
-            [DUAL_SCREEN_MATCH_CONFIRM]: (message, peerId) => {
-                onConfirmMatch(peerId, true);
+            [DUAL_SCREEN_MATCH_ACCEPT]: (message, peerId) => {
+                onAcceptMatch(peerId, true);
             },
             [DUAL_SCREEN_MATCH_REJECT]: (message, peerId) => {
                 onRejectMatch(peerId);
@@ -162,14 +151,14 @@ export const useConnectToPeers = () => {
         };
         const cleanUpFns = Object.entries(handlers).map(
             ([messageType, handlerFn]) => {
-                return addPeerMessageHandler(messageType, handlerFn);
+                return addNetworkMessageHandler(messageType, handlerFn);
             },
         );
         return () => cleanUpFns.forEach((cleanUpFn) => cleanUpFn());
     }, [
         addPlayer,
         name,
-        onConfirmMatch,
+        onAcceptMatch,
         onRejectMatch,
         peerIdOfInboundReq,
         peerIdOfOutboundReq,
@@ -185,7 +174,7 @@ export const useConnectToPeers = () => {
     return {
         players,
         requestMatch,
-        confirmMatch,
+        acceptMatch,
         rejectMatch,
         peerIdOfInboundReq,
         peerIdOfOutboundReq,

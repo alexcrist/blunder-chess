@@ -1,26 +1,22 @@
 import { useCallback, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import chessSlice from "../../chess/chessSlice";
 import { useElementLayoutObserver } from "../../util/useElementLayoutObserver";
 import CheckboardBackground from "../CheckboardBackground/CheckboardBackground";
-import mainSlice from "../mainSlice";
+import {
+    useNavigateToConnectOnline,
+    useNavigateToGameLocal,
+} from "../useNavigation";
 import styles from "./Menu.module.css";
 
 const Menu = () => {
-    const dispatch = useDispatch();
-    const onPlayLocal = () => {
-        dispatch(mainSlice.actions.setIsGameActive(true));
-        dispatch(chessSlice.actions.setPlayer1Name("Player 1"));
-        dispatch(chessSlice.actions.setPlayer2Name("Player 2"));
-    };
-    const onPlayOnline = () => {
-        dispatch(mainSlice.actions.setIsConnectingToPeer(true));
-    };
+    const navigateToGameLocal = useNavigateToGameLocal();
+    const navigateToConnectOnline = useNavigateToConnectOnline();
 
+    // Calculate title / button font-size
     const [fontSize, setFontSize] = useState(20);
     const ref = useRef(null);
     const onLayout = useCallback(({ width }) => {
-        setFontSize(width / 12);
+        const fontSize = Math.min(100, width / 12);
+        setFontSize(fontSize);
     }, []);
     useElementLayoutObserver(ref, onLayout);
 
@@ -32,14 +28,14 @@ const Menu = () => {
             </div>
             <div
                 className={styles.button}
-                onClick={onPlayLocal}
+                onClick={navigateToGameLocal}
                 style={{ fontSize: fontSize * 0.65 }}
             >
                 Blunder locally
             </div>
             <div
                 className={styles.button}
-                onClick={onPlayOnline}
+                onClick={navigateToConnectOnline}
                 style={{ fontSize: fontSize * 0.65 }}
             >
                 Blunder online

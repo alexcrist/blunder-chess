@@ -48,18 +48,11 @@ export const useGameSync = () => {
     ]);
     useEffect(() => {
         if (connectedPeer) {
-            return addPeerMessageHandler(GAME_UPDATE, (message) => {
-                const {
-                    moveHistory,
-                    boardState,
-                    globalTurnIndex,
-                    isPromotingPawn,
-                    connectedPeer,
-                    sourceCoordinate,
-                    hoveredCoordinate,
-                } = message.payload;
-                dispatch(
-                    chessSlice.actions.syncData({
+            return addPeerMessageHandler(
+                connectedPeer.peerId,
+                GAME_UPDATE,
+                (message) => {
+                    const {
                         moveHistory,
                         boardState,
                         globalTurnIndex,
@@ -67,21 +60,40 @@ export const useGameSync = () => {
                         connectedPeer,
                         sourceCoordinate,
                         hoveredCoordinate,
-                    }),
-                );
-            });
+                    } = message.payload;
+                    dispatch(
+                        chessSlice.actions.syncData({
+                            moveHistory,
+                            boardState,
+                            globalTurnIndex,
+                            isPromotingPawn,
+                            connectedPeer,
+                            sourceCoordinate,
+                            hoveredCoordinate,
+                        }),
+                    );
+                },
+            );
         }
     }, [connectedPeer, dispatch]);
     const [showedDisconnectedMessage, setShowedDisconnectedMessage] =
         useState(false);
+    const [isConnectedToPeer, setIsConnectedToPeer] = useState(true);
     useEffect(() => {
         if (connectedPeer) {
-            return addPeerMessageHandler(PEER_DISCONNECT_MESSAGE_TYPE, () => {
-                if (!showedDisconnectedMessage) {
-                    setShowedDisconnectedMessage(true);
-                    alert(`${connectedPeer.name} disconnected.`);
-                }
-            });
+            return addPeerMessageHandler(
+                connectedPeer.peerId,
+                PEER_DISCONNECT_MESSAGE_TYPE,
+                () => {
+                    setIsConnectedToPeer(false);
+                    if (!showedDisconnectedMessage) {
+                        setShowedDisconnectedMessage(true);
+                        alert(`${connectedPeer.name} disconnected.`);
+                    }
+                },
+            );
         }
     }, [connectedPeer, showedDisconnectedMessage]);
+
+    return isConnectedToPeer;
 };

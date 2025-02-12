@@ -7,9 +7,36 @@ import ChessBoard from "../ChessBoard/ChessBoard";
 import chessSlice from "../chessSlice";
 import { useTurn } from "../getTurn";
 import TurnIndicator from "../TurnIndicator/TurnIndicator";
+import { useCalculatePossibleMoves } from "../useCalculatePossibleMoves";
+import { useCheckForGameOver } from "../useCheckForGameOver";
 import styles from "./Chess.module.css";
 
 const Chess = () => {
+    // Sync game state with peer (if applicable)
+    const isConnectedToPeer = useGameSync();
+
+    // Calculate possible moves
+    useCalculatePossibleMoves();
+
+    // Check for win / tie
+    useCheckForGameOver();
+    const winner = useSelector((state) => state.chess.winner);
+    const isTie = useSelector((state) => state.chess.isTie);
+
+    // If online match, warn user if they navigate away while peer is connected and while
+    // game is ongoing
+    const isOnlineGame = useSelector((state) => state.main.isOnlineGame);
+    const moveHistory = useSelector((state) => state.chess.moveHistory);
+    useEffect(() => {
+        const isGameOver = winner !== null || isTie;
+        const didPeerDisconnect = isOnlineGame && !isConnectedToPeer;
+        const isZeroMoveLocalGame = !isOnlineGame && moveHistory.length === 0;
+        if (!didPeerDisconnect && !isGameOver && !isZeroMoveLocalGame) {
+            window.onbeforeunload = () => true;
+            return () => (window.onbeforeunload = null);
+        }
+    }, [isConnectedToPeer, isOnlineGame, isTie, moveHistory.length, winner]);
+
     // Set board size
     const dispatch = useDispatch();
     const boardContainerRef = useRef(null);
@@ -36,23 +63,18 @@ const Chess = () => {
 
     // Disable right clicking board
     useEffect(() => {
-        if (!boardContainerRef.current) {
-            return;
-        }
-        const onRightClick = (event) => {
-            event.preventDefault();
-        };
         const element = boardContainerRef.current;
-        element.addEventListener("contextmenu", onRightClick);
-        return () => element.removeEventListener("contextmenu", onRightClick);
+        if (element) {
+            const onRightClick = (event) => event.preventDefault();
+            element.addEventListener("contextmenu", onRightClick);
+            return () =>
+                element.removeEventListener("contextmenu", onRightClick);
+        }
     }, [boardContainerRef]);
 
     // Get player names
     const player1Name = useSelector((state) => state.chess.player1Name);
     const player2Name = useSelector((state) => state.chess.player2Name);
-
-    // Sync game state with peer (if applicable)
-    useGameSync();
 
     return (
         <div className={styles.container}>
@@ -77,4 +99,3 @@ const Chess = () => {
 };
 
 export default Chess;
-("");

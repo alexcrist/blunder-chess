@@ -5,8 +5,8 @@ const mainSlice = createSlice({
     name: "main",
     initialState: {
         name: generateRandomName(),
-        isGameActive: false,
-        isConnectingToPeer: false,
+        view: window.location.pathname,
+        isOnlineGame: false,
         connectedPeer: null,
         isPlayer1: false,
     },
@@ -14,14 +14,17 @@ const mainSlice = createSlice({
         setName: (state, action) => {
             state.name = action.payload;
         },
-        setIsGameActive: (state, action) => {
-            state.isGameActive = action.payload;
+        updateView: (state) => {
+            state.view = window.location.pathname;
         },
-        setIsConnectingToPeer: (state, action) => {
-            state.isConnectingToPeer = action.payload;
+        setIsOnlineGame: (state, action) => {
+            state.isOnlineGame = action.payload;
         },
         setConnectedPeer: (state, action) => {
             state.connectedPeer = action.payload;
+        },
+        setIsPlayer1: (state, action) => {
+            state.isPlayer1 = action.payload;
         },
     },
 });

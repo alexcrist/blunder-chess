@@ -1,16 +1,20 @@
 TODOS
 
-* deploy to domain name
-
-* add link to code (maybe desktop only)
-
-* add basic navigation
-
 * update favicon
 
 * change piece images
 
+* add link to code (maybe desktop only)
+
 * add clock (10min?)
+
+* add header
+
+* add extras to menu
+    * attributions
+    * link to code
+    * buy me a coffee
+    * leave feedback
 
 * finish network versus
     * only allow moving on your turn
@@ -27,10 +31,10 @@ TODOS
     * if isPhone, flip piece orientation (and text) for black's turn
 
 * QOL improvements
-    * add browser navigation (i.e.: back goes back to main menu)
     * show taken pieces
     * show move history with official chess notation
     * add undo to single player
+
 
 FUTURE
 
