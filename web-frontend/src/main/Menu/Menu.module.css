@@ -100,7 +100,7 @@
     text-decoration: underline;
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 500px) {
     .footer {
         font-size: 14px;
         flex-direction: column;
