@@ -48,9 +48,12 @@ const initialState = {
     isPromotingPawn: false,
     winner: null,
     isTie: false,
+    gameOverReason: "",
     player1Name: "Player 1",
     player2Name: "Player 2",
     isGameOverModalClosed: false,
+    moveDurationsMs: [],
+    matchStartTime: null,
 };
 
 const chessSlice = createSlice({
@@ -90,6 +93,8 @@ const chessSlice = createSlice({
                 state.isPromotingPawn = true;
             } else {
                 state.globalTurnIndex++;
+                const moveDurationMs = getMoveDurationMs(state);
+                state.moveDurationsMs.push(moveDurationMs);
             }
         },
         promotePawn: (state, action) => {
@@ -100,6 +105,8 @@ const chessSlice = createSlice({
             state.boardState[coordinate] = newPiece;
             state.globalTurnIndex++;
             state.isPromotingPawn = false;
+            const moveDurationMs = getMoveDurationMs(state);
+            state.moveDurationsMs.push(moveDurationMs);
         },
         setBoardSquareBounds: (state, action) => {
             const { coordinate, bounds } = action.payload;
@@ -120,12 +127,6 @@ const chessSlice = createSlice({
         setPossibleMoves: (state, action) => {
             state.possibleMoves = action.payload;
         },
-        setWinner: (state, action) => {
-            state.winner = action.payload;
-        },
-        setIsTie: (state, action) => {
-            state.isTie = action.payload;
-        },
         setPlayer1Name: (state, action) => {
             state.player1Name = action.payload;
         },
@@ -138,11 +139,8 @@ const chessSlice = createSlice({
                 boardState,
                 globalTurnIndex,
                 isPromotingPawn,
-                sourceCoordinate,
-                hoveredCoordinate,
+                moveDurationsMs,
             } = action.payload;
-            state.sourceCoordinate = sourceCoordinate;
-            state.hoveredCoordinate = hoveredCoordinate;
             if (
                 globalTurnIndex > state.globalTurnIndex &&
                 !_.isEqual(boardState, state.boardState)
@@ -151,12 +149,50 @@ const chessSlice = createSlice({
                 state.boardState = boardState;
                 state.globalTurnIndex = globalTurnIndex;
                 state.isPromotingPawn = isPromotingPawn;
+                state.moveDurationsMs = moveDurationsMs;
             }
         },
         setIsGameOverModalClosed: (state, action) => {
             state.isGameOverModalClosed = action.payload;
         },
+        setMatchStartTime: (state) => {
+            state.matchStartTime = Date.now();
+        },
+        endGame: (state, action) => {
+            const { winner, isTie, reason } = action.payload;
+            // If game is already over, do nothing
+            if (state.winner || state.isTie) {
+                return;
+            }
+            state.gameOverReason = reason;
+            if (isTie && winner) {
+                throw Error("There cannot be a tie and winner.");
+            }
+            if (isTie) {
+                state.isTie = true;
+            }
+            if (winner) {
+                state.winner = winner;
+            }
+        },
     },
 });
 
 export default chessSlice;
+
+const getMoveDurationMs = ({
+    moveHistory,
+    moveDurationsMs,
+    matchStartTime,
+}) => {
+    if (moveHistory.length === 0) {
+        throw Error("Bug. Should not be possible.");
+    }
+    if (moveHistory.length === 1) {
+        return null;
+    }
+    if (!matchStartTime) {
+        throw Error("Bug. Should not be possible.");
+    }
+    return Date.now() - matchStartTime - _.sum(moveDurationsMs);
+};

@@ -1,15 +1,9 @@
 TODOS
 
-* add clock (30 seconds per move)
-
 * finish network versus
     * allow offering draw
     * detect draw / resign
     * allow resignation
-
-* add header
-
-* add link to code (maybe desktop only)
 
 * add extras to menu
     * attributions
@@ -17,16 +11,14 @@ TODOS
     * buy me a coffee
     * leave feedback
 
-* single player
-    * if isPhone, flip piece orientation (and text) for black's turn
-
-* QOL improvements
-
 TEST
 
 * multiple games simultaneously
 
 FUTURE
+
+* in singlePlayer, if isPhone, flip piece orientation (and text)
+    for black's turn
 
 * Allow offering 'Go normal mode'
 
@@ -42,3 +34,5 @@ FUTURE
     simultaneously
 
 * Refactor navigation
+
+* Add play vs. AI

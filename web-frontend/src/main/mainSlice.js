@@ -11,6 +11,7 @@ const mainSlice = createSlice({
         isPlayer1: false,
         isOnRequestCooldown: false,
         didPeerDisconnect: false,
+        pageWidth: 0,
     },
     reducers: {
         setName: (state, action) => {
@@ -34,6 +35,9 @@ const mainSlice = createSlice({
         },
         setDidPeerDisconnect: (state, action) => {
             state.didPeerDisconnect = action.payload;
+        },
+        setPageWidth: (state, action) => {
+            state.pageWidth = action.payload;
         },
     },
 });

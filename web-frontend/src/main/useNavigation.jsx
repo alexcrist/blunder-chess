@@ -9,10 +9,15 @@ import mainSlice from "./mainSlice";
 
 export const VIEWS = {
     MENU: "/",
-    GAME_LOCAL: "/game/local",
-    CONNECT_ONLINE: "/connect/online",
-    GAME_ONLINE: "/game/online",
+    GAME_LOCAL: "/local",
+    CONNECT_ONLINE: "/connect",
+    GAME_ONLINE: "/online",
 };
+
+// If user navigates straight to online-game URL, redirect to connection page
+if (window.location.pathname === VIEWS.GAME_ONLINE) {
+    window.location.href = VIEWS.CONNECT_ONLINE;
+}
 
 export const useNavigation = () => {
     const view = useSelector((state) => state.main.view);

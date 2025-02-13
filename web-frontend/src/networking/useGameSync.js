@@ -20,32 +20,27 @@ export const useGameSync = () => {
     const globalTurnIndex = useSelector((state) => state.chess.globalTurnIndex);
     const isPromotingPawn = useSelector((state) => state.chess.isPromotingPawn);
     const connectedPeer = useSelector((state) => state.main.connectedPeer);
-    const sourceCoordinate = useSelector(
-        (state) => state.chess.sourceCoordinate,
-    );
-    const hoveredCoordinate = useSelector(
-        (state) => state.chess.hoveredCoordinate,
-    );
+    const moveDurationsMs = useSelector((state) => state.chess.moveDurationsMs);
     useEffect(() => {
         if (connectedPeer) {
-            sendMessageToPeerThrottled(connectedPeer?.peerId, GAME_UPDATE, {
-                moveHistory,
-                boardState,
-                globalTurnIndex,
-                isPromotingPawn,
-                connectedPeer,
-                sourceCoordinate,
-                hoveredCoordinate,
-            });
+            if (moveHistory.length === moveDurationsMs.length) {
+                sendMessageToPeerThrottled(connectedPeer?.peerId, GAME_UPDATE, {
+                    moveHistory,
+                    boardState,
+                    globalTurnIndex,
+                    isPromotingPawn,
+                    connectedPeer,
+                    moveDurationsMs,
+                });
+            }
         }
     }, [
         boardState,
         connectedPeer,
         globalTurnIndex,
         isPromotingPawn,
+        moveDurationsMs,
         moveHistory,
-        sourceCoordinate,
-        hoveredCoordinate,
     ]);
     useEffect(() => {
         if (connectedPeer) {
@@ -59,8 +54,7 @@ export const useGameSync = () => {
                         globalTurnIndex,
                         isPromotingPawn,
                         connectedPeer,
-                        sourceCoordinate,
-                        hoveredCoordinate,
+                        moveDurationsMs,
                     } = message.payload;
                     dispatch(
                         chessSlice.actions.syncData({
@@ -69,8 +63,7 @@ export const useGameSync = () => {
                             globalTurnIndex,
                             isPromotingPawn,
                             connectedPeer,
-                            sourceCoordinate,
-                            hoveredCoordinate,
+                            moveDurationsMs,
                         }),
                     );
                 },

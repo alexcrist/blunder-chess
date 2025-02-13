@@ -1,20 +1,26 @@
 import classNames from "classnames";
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Header from "../../main/Header/Header";
 import { useGameSync } from "../../networking/useGameSync";
 import { useElementLayoutObserver } from "../../util/useElementLayoutObserver";
 import ChessBoard from "../ChessBoard/ChessBoard";
 import chessSlice from "../chessSlice";
 import { useTurn } from "../getTurn";
 import TurnIndicator from "../TurnIndicator/TurnIndicator";
+import TurnTimer from "../TurnTimer/TurnTimer";
 import { useCalculatePossibleMoves } from "../useCalculatePossibleMoves";
 import { useCheckForGameOver } from "../useCheckForGameOver";
 import { useShouldSpinBoard } from "../useShouldSpinBoard";
+import { useTurnTimer } from "../useTurnTimer";
 import styles from "./Chess.module.css";
 
 const Chess = () => {
     // Sync game state with peer (if applicable)
     useGameSync();
+
+    // Use a turn timer
+    useTurnTimer();
 
     // Calculate possible moves
     useCalculatePossibleMoves();
@@ -32,19 +38,6 @@ const Chess = () => {
     );
     useElementLayoutObserver(boardContainerRef, onBoardLayoutChange);
 
-    // Current turn text
-    const turn = useTurn();
-    const [activePlayer, color] = turn;
-    const turnElement = (
-        <div
-            className={classNames(styles.turn, {
-                [styles.isWhiteTurn]: color === "w",
-            })}
-        >
-            to move {color === "w" ? "white" : "black"}
-        </div>
-    );
-
     // Disable right clicking board
     useEffect(() => {
         const element = boardContainerRef.current;
@@ -61,24 +54,34 @@ const Chess = () => {
     const player2Name = useSelector((state) => state.chess.player2Name);
 
     // Should the board be spun 180°
+    const turn = useTurn();
     const shouldSpinBoard = useShouldSpinBoard();
     const player1 = (
-        <div className={classNames(styles.player, styles.player1)}>
+        <div
+            className={classNames(styles.player, styles.player1, {
+                [styles.isTurn]: turn[0] === "1",
+            })}
+        >
             <div className={styles.color} />
             <div className={styles.name}>{player1Name}</div>
-            {activePlayer === "1" && turnElement}
+            <TurnTimer player={"1"} />
         </div>
     );
     const player2 = (
-        <div className={classNames(styles.player, styles.player2)}>
+        <div
+            className={classNames(styles.player, styles.player2, {
+                [styles.isTurn]: turn[0] === "2",
+            })}
+        >
             <div className={styles.color} />
             <div className={styles.name}>{player2Name}</div>
-            {activePlayer === "2" && turnElement}
+            <TurnTimer player={"2"} />
         </div>
     );
 
     return (
         <div className={styles.container}>
+            <Header />
             <div className={styles.spacer} />
             <div
                 className={classNames(styles.boardContainer, {})}

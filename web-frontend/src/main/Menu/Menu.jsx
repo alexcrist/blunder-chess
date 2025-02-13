@@ -1,5 +1,5 @@
-import { useCallback, useRef, useState } from "react";
-import { useElementLayoutObserver } from "../../util/useElementLayoutObserver";
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
 import CheckboardBackground from "../CheckboardBackground/CheckboardBackground";
 import {
     useNavigateToConnectOnline,
@@ -12,16 +12,13 @@ const Menu = () => {
     const navigateToConnectOnline = useNavigateToConnectOnline();
 
     // Calculate title / button font-size
-    const [fontSize, setFontSize] = useState(20);
-    const ref = useRef(null);
-    const onLayout = useCallback(({ width }) => {
-        const fontSize = Math.min(100, width / 12);
-        setFontSize(fontSize);
-    }, []);
-    useElementLayoutObserver(ref, onLayout);
+    const pageWidth = useSelector((state) => state.main.pageWidth);
+    const fontSize = useMemo(() => {
+        return Math.min(100, pageWidth / 12);
+    }, [pageWidth]);
 
     return (
-        <div className={styles.container} ref={ref}>
+        <div className={styles.container}>
             <CheckboardBackground />
             <div className={styles.title} style={{ fontSize }}>
                 blunderchess.net
