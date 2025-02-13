@@ -21,10 +21,35 @@ if (window.location.pathname === VIEWS.GAME_ONLINE) {
     window.location.href = VIEWS.CONNECT_ONLINE;
 }
 
+const useNavigateTo = () => {
+    const dispatch = useDispatch();
+    const connectedPeer = useSelector((state) => state.main.connectedPeer);
+    return useCallback(
+        (view) => {
+            history.pushState("", "", view);
+            dispatch(mainSlice.actions.updateView());
+            if (view !== VIEWS.GAME_ONLINE) {
+                disconnectFromPeer(connectedPeer?.peerId);
+            }
+        },
+        [connectedPeer?.peerId, dispatch],
+    );
+};
+
 export const useNavigation = () => {
     const view = useSelector((state) => state.main.view);
     const connectedPeer = useSelector((state) => state.main.connectedPeer);
     const dispatch = useDispatch();
+    const navigateTo = useNavigateTo();
+
+    // Handle direct page loads to subpaths
+    useEffect(() => {
+        const search = window.location.search;
+        if (search.startsWith("?/")) {
+            const path = search.replace("?/", "/");
+            navigateTo(path);
+        }
+    }, [navigateTo]);
 
     // Handle back button
     useEffect(() => {
@@ -52,21 +77,6 @@ export const useNavigation = () => {
             return <div>Unknown view: {view}</div>;
         }
     }, [view]);
-};
-
-export const useNavigateTo = () => {
-    const dispatch = useDispatch();
-    const connectedPeer = useSelector((state) => state.main.connectedPeer);
-    return useCallback(
-        (view) => {
-            history.pushState("", "", view);
-            dispatch(mainSlice.actions.updateView());
-            if (view !== VIEWS.GAME_ONLINE) {
-                disconnectFromPeer(connectedPeer?.peerId);
-            }
-        },
-        [connectedPeer?.peerId, dispatch],
-    );
 };
 
 export const useNavigateToMenu = () => {
