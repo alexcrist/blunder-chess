@@ -2,7 +2,6 @@
     font-weight: bold;
     text-align: center;
     padding: 2px 0 5px;
-    width: 100dvw;
 }
 
 .container a {
@@ -10,4 +9,5 @@
     font-weight: bold;
     font-family: "Rock 3D", serif;
     text-decoration: none;
+    font-size: 30px;
 }

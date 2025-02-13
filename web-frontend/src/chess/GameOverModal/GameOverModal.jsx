@@ -20,9 +20,13 @@ const GameOverModal = () => {
         return !isGameOverModalClosed && (winner || isTie);
     }, [isGameOverModalClosed, isTie, winner]);
     const navigateToMenu = useNavigateToMenu();
-    const onMenu = () => navigateToMenu();
-    const onClose = () =>
+    const onMenu = () => {
         dispatch(chessSlice.actions.setIsGameOverModalClosed(true));
+        navigateToMenu();
+    };
+    const onClose = () => {
+        dispatch(chessSlice.actions.setIsGameOverModalClosed(true));
+    };
     const gameOverText = useMemo(() => {
         let text = `due to ${gameOverReason}`;
         if (isTie) {

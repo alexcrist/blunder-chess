@@ -1,26 +1,22 @@
-TODOS
+FUTURE WORK
 
-* finish network versus
-    * allow offering draw
-    * detect draw / resign
-    * allow resignation
+* allow offering draw
+* allow offering resignation
+* detect advanced draw cases
+    * dead position
+    * threefold repetition
+    * 50-move rule
 
-* add extras to menu
-    * attributions
-    * link to code
-    * buy me a coffee
-    * leave feedback
-
-TEST
-
-* multiple games simultaneously
-
-FUTURE
+* sound effects
+  * piece is moved
+  * match request
+  * check
+  * you win
+  * you lose
+  * you tie
 
 * in singlePlayer, if isPhone, flip piece orientation (and text)
-    for black's turn
-
-* Allow offering 'Go normal mode'
+  for black's turn
 
 * Show taken pieces
 
@@ -31,8 +27,6 @@ FUTURE
 * Add network dual-screen one board multiplayer
 
 * Handle online edge-case where players cancel and accept match
-    simultaneously
-
-* Refactor navigation
+  simultaneously
 
 * Add play vs. AI

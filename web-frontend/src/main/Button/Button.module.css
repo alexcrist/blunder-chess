@@ -5,6 +5,11 @@
     border-radius: 2px;
     text-align: center;
     cursor: pointer;
+    transition: transform 100ms;
+}
+
+.container:hover {
+    filter: brightness(0.8);
 }
 
 .container:active:not(.isDisabled) {

@@ -4,6 +4,7 @@ import Chess from "../chess/Chess/Chess";
 import chessSlice from "../chess/chessSlice";
 import ConnectionMenu from "../networking/ConnectionMenu/ConnectionMenu";
 import { disconnectFromPeer } from "../networking/peerNetwork";
+import HowToPlay from "./HowToPlay/HowToPlay";
 import Menu from "./Menu/Menu";
 import mainSlice from "./mainSlice";
 
@@ -12,6 +13,7 @@ export const VIEWS = {
     GAME_LOCAL: "/local",
     CONNECT_ONLINE: "/connect",
     GAME_ONLINE: "/online",
+    HOW_TO_PLAY: "/how",
 };
 
 // If user navigates straight to online-game URL, redirect to connection page
@@ -44,6 +46,8 @@ export const useNavigation = () => {
             return <ConnectionMenu />;
         } else if (view === VIEWS.GAME_ONLINE) {
             return <Chess />;
+        } else if (view === VIEWS.HOW_TO_PLAY) {
+            return <HowToPlay />;
         } else {
             return <div>Unknown view: {view}</div>;
         }
@@ -52,12 +56,16 @@ export const useNavigation = () => {
 
 export const useNavigateTo = () => {
     const dispatch = useDispatch();
+    const connectedPeer = useSelector((state) => state.main.connectedPeer);
     return useCallback(
-        (path) => {
-            history.pushState("", "", path);
+        (view) => {
+            history.pushState("", "", view);
             dispatch(mainSlice.actions.updateView());
+            if (view !== VIEWS.GAME_ONLINE) {
+                disconnectFromPeer(connectedPeer?.peerId);
+            }
         },
-        [dispatch],
+        [connectedPeer?.peerId, dispatch],
     );
 };
 
@@ -103,4 +111,11 @@ export const useNavigateToGameOnline = () => {
         },
         [dispatch, navigateTo],
     );
+};
+
+export const useNavigateToHowToPlay = () => {
+    const navigateTo = useNavigateTo();
+    return useCallback(() => {
+        navigateTo(VIEWS.HOW_TO_PLAY);
+    }, [navigateTo]);
 };
