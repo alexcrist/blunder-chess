@@ -1,6 +1,12 @@
 # [blunderchess.net](https://blunderchess.net)
 
 > Where blundering is a strategy!
+<p float="left">
+
+<img width="400" src="https://github.com/user-attachments/assets/d57c6ba3-48dc-4bc3-9c52-091b73a50a1d">
+<img width="400" src="https://github.com/user-attachments/assets/21b9e270-95d0-449b-ad4c-08e0f0d123e0">
+<img width="400" src="https://github.com/user-attachments/assets/c9bfe673-6c3c-423c-8c6e-61e81c37db62">
+</p>
 
 ## How to play
 
