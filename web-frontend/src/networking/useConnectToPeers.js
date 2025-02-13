@@ -110,13 +110,13 @@ export const useConnectToPeers = () => {
             setPeerIdOfOutboundReq(peerId);
             const isHeads = Math.random() > 0.5;
             setIsHeads(isHeads);
-            sendMessageToPeer(peerId, MATCH_REQUEST, { isHeads });
+            sendMessageToPeer(peerId, MATCH_REQUEST, { isHeads, name });
             dispatch(mainSlice.actions.setIsOnRequestCooldown(true));
             setTimeout(() => {
                 dispatch(mainSlice.actions.setIsOnRequestCooldown(false));
             }, REQUEST_COOLDOWN_MS);
         },
-        [dispatch],
+        [dispatch, name],
     );
     const acceptMatch = useCallback(
         (peerId) => {
@@ -159,6 +159,11 @@ export const useConnectToPeers = () => {
                 if (isBusy) {
                     sendMessageToPeer(peerId, MATCH_REJECT);
                 } else {
+                    const player = {
+                        peerId: peerId,
+                        name: message.payload.name,
+                    };
+                    addPlayer(player);
                     setPeerIdOfInboundReq(peerId);
                     setIsHeads(message.payload.isHeads);
                 }

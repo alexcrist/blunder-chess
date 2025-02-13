@@ -46,8 +46,11 @@ export const useNavigation = () => {
     useEffect(() => {
         const search = window.location.search;
         if (search.startsWith("?/")) {
-            const path = search.replace("?/", "/");
-            navigateTo(path);
+            let view = search.replace("?/", "/");
+            if (view === VIEWS.GAME_ONLINE) {
+                view = VIEWS.CONNECT_ONLINE;
+            }
+            navigateTo(view);
         }
     }, [navigateTo]);
 

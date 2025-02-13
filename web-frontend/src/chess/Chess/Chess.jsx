@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../main/Header/Header";
 import { useGameSync } from "../../networking/useGameSync";
@@ -79,9 +79,18 @@ const Chess = () => {
         </div>
     );
 
+    // Disable header link during game
+    const isOnlineGame = useSelector((state) => state.main.isOnlineGame);
+    const winner = useSelector((state) => state.chess.winner);
+    const isTie = useSelector((state) => state.chess.isTie);
+    const isHeaderLinkDisabled = useMemo(() => {
+        const isGameOver = winner || isTie;
+        return isOnlineGame && !isGameOver;
+    }, [isOnlineGame, isTie, winner]);
+
     return (
         <div className={styles.container}>
-            <Header />
+            <Header isLinkDisabled={isHeaderLinkDisabled} />
             <div className={styles.spacer} />
             <div
                 className={classNames(styles.boardContainer, {})}

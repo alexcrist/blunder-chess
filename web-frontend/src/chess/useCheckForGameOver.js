@@ -12,9 +12,6 @@ import {
 import { GRACE_TIME_MS, usePlayerTimeMs } from "./useTurnTimer";
 
 export const useCheckForGameOver = () => {
-    // TODO: Add game over conditions for:
-    // * repition
-    // * offered draw
     useCheckForPeerDisconnect();
     useCheckForMate();
     useCheckForTimeExpired();
