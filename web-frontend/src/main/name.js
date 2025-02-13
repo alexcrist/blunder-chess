@@ -22,7 +22,6 @@ const NAMES = [
     "Jessica",
     "Brian",
     "Emily",
-    "Chad",
     "Abigail",
     "Johnny",
     "Penelope",
