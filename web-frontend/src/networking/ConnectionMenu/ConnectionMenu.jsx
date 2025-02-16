@@ -67,9 +67,7 @@ const ConnectionMenu = () => {
                     </div>
                     <div className={styles.players}>
                         {players.length === 0 && (
-                            <div className={styles.noPlayers}>
-                                Searching for players...
-                            </div>
+                            <div className={styles.noPlayers}>Searching...</div>
                         )}
                         {players.map((player) => {
                             const onClickPlayer = () => {
