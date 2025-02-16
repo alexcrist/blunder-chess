@@ -5,6 +5,7 @@ import mainSlice from "../main/mainSlice";
 import { useNavigateToGameOnline } from "../main/useNavigation";
 import {
     addNetworkMessageHandler,
+    addOnConnectToPeerHandler,
     PEER_DISCONNECT_MESSAGE_TYPE,
     sendMessageToPeer,
     sendMessageToPeers,
@@ -198,6 +199,9 @@ export const useConnectToPeers = () => {
     // Send search request to peers
     useEffect(() => {
         sendMessageToPeers(SEARCH_REQUEST, { name });
+        return addOnConnectToPeerHandler((peerId) => {
+            sendMessageToPeer(peerId, SEARCH_REQUEST, { name });
+        });
     }, [name]);
 
     // Broadcast a name change

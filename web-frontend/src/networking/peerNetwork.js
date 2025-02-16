@@ -7,18 +7,23 @@ const SERVER_KEY = "beardom";
 const APPLICATION_ID = "blunder-chess";
 export const PEER_DISCONNECT_MESSAGE_TYPE = "disconnect";
 const HEALTH_CHECK_MESSAGE_TYPE = "healthcheck";
-const HEALTH_CHECK_FREQ_MS = 1000;
+const HEALTH_CHECK_FREQ_MS = 10000;
 const HEALTH_CHECK_TIMEOUT_MS = 60000;
 
 let id = null;
 let peerConnections = {};
 let peerLastSeens = {};
 let messageHandlers = {};
+let onConnectToPeerHandlers = {};
 
 const onConnectToNetwork = (resolve, network) => async (_id) => {
     id = _id;
     console.info(`Connected to PeerJS network with ID: ${id}`);
+    console.log("Fetching peer IDs...");
+    console.time("peer-id-fetch");
     const res = await fetch(`https://${SERVER_IP}/${SERVER_KEY}/peers`);
+    console.log("Peer IDs fetched.");
+    console.timeEnd("peer-id-fetch");
     const peerIds = await res.json();
     for (const peerId of peerIds) {
         const isSelf = peerId === id;
@@ -26,7 +31,12 @@ const onConnectToNetwork = (resolve, network) => async (_id) => {
             const connection = network.connect(peerId, {
                 metadata: { appId: APPLICATION_ID },
             });
-            await initPeerConnection(connection);
+            try {
+                initPeerConnection(connection);
+            } catch (error) {
+                console.error(error);
+                connection.close();
+            }
         }
     }
     resolve(network);
@@ -41,15 +51,21 @@ const initPeerConnection = (connection) => {
         let healthcheckInterval;
         const peerId = connection.peer;
         connection.on("data", (message) => {
+            console.log("Data received", message);
             if (message.type === HEALTH_CHECK_MESSAGE_TYPE) {
                 peerLastSeens[peerId] = Date.now();
+                connection.close();
             } else {
                 handleMessage(message, peerId);
             }
         });
         connection.on("open", () => {
+            console.log("Connection opened", { peerId });
             peerConnections[peerId] = connection;
             peerLastSeens[peerId] = Date.now();
+            for (const handlerFn of Object.values(onConnectToPeerHandlers)) {
+                handlerFn(peerId);
+            }
             healthcheckInterval = setInterval(() => {
                 connection.send({ type: HEALTH_CHECK_MESSAGE_TYPE });
                 const elapsedMs = Date.now() - peerLastSeens[peerId];
@@ -60,6 +76,7 @@ const initPeerConnection = (connection) => {
             resolve();
         });
         connection.on("close", () => {
+            console.log("Connection with peer closed", { peerId });
             clearInterval(healthcheckInterval);
             handleMessage({ type: PEER_DISCONNECT_MESSAGE_TYPE }, peerId);
             delete peerConnections[peerId];
@@ -96,6 +113,7 @@ export const sendMessageToPeer = async (peerId, type, payload) => {
     const connection = peerConnections[peerId];
     if (connection) {
         const message = { type, payload };
+        console.log("Sending data", message);
         connection.send(message);
     } else {
         console.warn(
@@ -112,6 +130,12 @@ export const addNetworkMessageHandler = (messageType, handlerFn) => {
         }
     };
     return () => delete messageHandlers[handlerId];
+};
+
+export const addOnConnectToPeerHandler = (handlerFn) => {
+    const handlerId = Math.random().toString();
+    onConnectToPeerHandlers[handlerId] = handlerFn;
+    return () => delete onConnectToPeerHandlers[handlerId];
 };
 
 export const addPeerMessageHandler = (peerId, messageType, handlerFn) => {

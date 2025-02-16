@@ -13,7 +13,6 @@ const App = () => {
     const dispatch = useDispatch();
     const onResize = useCallback(
         ({ width }) => {
-            console.log("width", width);
             dispatch(mainSlice.actions.setPageWidth(width));
         },
         [dispatch],
