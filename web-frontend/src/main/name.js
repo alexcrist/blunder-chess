@@ -56,13 +56,12 @@ const generateName = () => {
 const LOCAL_STORAGE_KEY = "player-name";
 
 export const getName = () => {
-    return generateName();
-    // let name = localStorage.getItem(LOCAL_STORAGE_KEY);
-    // if (!name) {
-    //     name = generateName();
-    //     setName(name);
-    // }
-    // return name;
+    let name = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!name) {
+        name = generateName();
+        setName(name);
+    }
+    return name;
 };
 
 export const setName = (name) => {

@@ -54,7 +54,6 @@ const initPeerConnection = (connection) => {
             console.log("Data received", message);
             if (message.type === HEALTH_CHECK_MESSAGE_TYPE) {
                 peerLastSeens[peerId] = Date.now();
-                connection.close();
             } else {
                 handleMessage(message, peerId);
             }
