@@ -68,7 +68,7 @@ const ConnectionMenu = () => {
                     <div className={styles.players}>
                         {players.length === 0 && (
                             <div className={styles.noPlayers}>
-                                No players found.
+                                Searching for players...
                             </div>
                         )}
                         {players.map((player) => {

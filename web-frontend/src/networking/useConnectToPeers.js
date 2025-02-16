@@ -13,6 +13,7 @@ import {
 
 const SEARCH_REQUEST = "SEARCH_REQUEST";
 const SEARCH_CONFIRM = "SEARCH_CONFIRM";
+const SEARCH_CANCEL = "SEARCH_CANCEL";
 
 const MATCH_REQUEST = "MATCH_REQUEST";
 const MATCH_ACCEPT = "MATCH_ACCEPT";
@@ -74,6 +75,7 @@ export const useConnectToPeers = () => {
     const navigateToGameOnline = useNavigateToGameOnline();
     const onAcceptMatch = useCallback(
         (peerId, didSendRequest) => {
+            sendMessageToPeers(SEARCH_CANCEL);
             const peerName = _.find(players, { peerId })?.name;
             const connectedPeer = { peerId, name };
             const isPlayer1 = getIsPlayer1(didSendRequest);
@@ -177,6 +179,9 @@ export const useConnectToPeers = () => {
             },
             [PEER_NAME_CHANGE]: (message, peerId) => {
                 updatePlayer(peerId, { name: message.payload.name });
+            },
+            [SEARCH_CANCEL]: (message, peerId) => {
+                removePlayer(peerId);
             },
         };
         const cleanUpFns = Object.entries(handlers).map(

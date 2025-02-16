@@ -35,7 +35,6 @@ const onConnectToNetwork = (resolve, network) => async (_id) => {
                 initPeerConnection(connection);
             } catch (error) {
                 console.error(error);
-                connection.close();
             }
         }
     }
@@ -69,6 +68,7 @@ const initPeerConnection = (connection) => {
                 connection.send({ type: HEALTH_CHECK_MESSAGE_TYPE });
                 const elapsedMs = Date.now() - peerLastSeens[peerId];
                 if (elapsedMs > HEALTH_CHECK_TIMEOUT_MS) {
+                    console.log("DC due to timeout", { peerId });
                     connection.close();
                 }
             }, HEALTH_CHECK_FREQ_MS);
