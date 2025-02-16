@@ -16,21 +16,22 @@ Blunderchess follows the rules of normal chess, with one twist: at certain point
 
 #### Turn Order
 
-Player 1 is trying to win as White, and Player 2 is trying to win as Black. The turn order is as follows:
+Player 1 is trying to win as White, and Player 2 is trying to win as Black. The turn order is five normal
+moves followed by two blunder-for-opponent moves:
 
 1. Player 1 plays for White
 1. Player 2 plays for Black
 1. Player 1 plays for White
 1. Player 2 plays for Black
-1. **Player 2 plays for White (attempting to make White blunder)**
-1. **Player 1 plays for Black (attempting to make Black blunder)**
-1. Player 1 plays for White
-1. Player 2 plays for Black
-1. Player 1 plays for White
-1. Player 2 plays for Black
 1. Player 1 plays for White
 1. **Player 1 plays for Black (attempting to make Black blunder)**
 1. **Player 2 plays for White (attempting to make White blunder)**
 1. Player 2 plays for Black
+1. Player 1 plays for White
+1. Player 2 plays for Black
+1. Player 1 plays for White
+1. Player 2 plays for Black
+1. **Player 2 plays for White (attempting to make White blunder)**
+1. **Player 1 plays for Black (attempting to make Black blunder)**
 
 This cycle continues throughout the game, forcing players to balance good moves with sabotage when given control of their opponent’s pieces.

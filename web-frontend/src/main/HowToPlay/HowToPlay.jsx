@@ -30,30 +30,17 @@ const HowToPlay = () => {
                     <div className={styles.subtitle}>Turn Order</div>
                     <div className={styles.description}>
                         Player 1 is trying to win as White, and Player 2 is
-                        trying to win as Black. The turn order is as follows:
+                        trying to win as Black. The turn order is five normal
+                        moves followed by two blunder-for-opponent moves,
+                        repeating:
                         {"\n"}
                         <ol>
                             <li>Player 1 plays for White</li>
                             <li>Player 2 plays for Black</li>
                             <li>Player 1 plays for White</li>
                             <li>Player 2 plays for Black</li>
-                            <li>
-                                <b>
-                                    Player 2 plays for White (attempting to make
-                                    White blunder)
-                                </b>
-                            </li>
-                            <li>
-                                <b>
-                                    Player 1 plays for Black (attempting to make
-                                    Black blunder)
-                                </b>
-                            </li>
                             <li>Player 1 plays for White</li>
-                            <li>Player 2 plays for Black</li>
-                            <li>Player 1 plays for White</li>
-                            <li>Player 2 plays for Black</li>
-                            <li>Player 1 plays for White</li>
+
                             <li>
                                 <b>
                                     Player 1 plays for Black (attempting to make
@@ -66,11 +53,29 @@ const HowToPlay = () => {
                                     White blunder)
                                 </b>
                             </li>
+
                             <li>Player 2 plays for Black</li>
+                            <li>Player 1 plays for White</li>
+                            <li>Player 2 plays for Black</li>
+                            <li>Player 1 plays for White</li>
+                            <li>Player 2 plays for Black</li>
+
+                            <li>
+                                <b>
+                                    Player 2 plays for White (attempting to make
+                                    White blunder)
+                                </b>
+                            </li>
+                            <li>
+                                <b>
+                                    Player 1 plays for Black (attempting to make
+                                    Black blunder)
+                                </b>
+                            </li>
                         </ol>
                         This cycle continues throughout the game, forcing
-                        players to balance good moves with sabotage when given
-                        control of their opponent’s pieces.
+                        players to balance good moves with sabotage and
+                        sabotage-protection.
                     </div>
                 </div>
             </div>

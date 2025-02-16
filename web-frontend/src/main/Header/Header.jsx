@@ -1,12 +1,11 @@
 import classNames from "classnames";
 import styles from "./Header.module.css";
 
-const Header = ({ isLight, isLinkDisabled }) => {
+const Header = ({ isLight }) => {
     return (
         <div
             className={classNames(styles.container, {
                 [styles.isLight]: isLight,
-                [styles.isLinkDisabled]: isLinkDisabled,
             })}
         >
             <a href="/">blunderchess.net</a>

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../main/Header/Header";
 import { useGameSync } from "../../networking/useGameSync";
@@ -28,6 +28,7 @@ const Chess = () => {
     // Check for win / tie
     useCheckForGameOver();
 
+    // Store board size
     const dispatch = useDispatch();
     const boardContainerRef = useRef(null);
     const onBoardLayoutChange = useCallback(
@@ -37,6 +38,17 @@ const Chess = () => {
         [dispatch],
     );
     useElementLayoutObserver(boardContainerRef, onBoardLayoutChange);
+
+    // Warn user if navigating away
+    const isTie = useSelector((state) => state.chess.isTie);
+    const winner = useSelector((state) => state.chess.winner);
+    useEffect(() => {
+        const isGameOver = winner || isTie;
+        if (!isGameOver) {
+            window.onbeforeunload = () => true;
+            return () => (window.onbeforeunload = null);
+        }
+    }, [isTie, winner]);
 
     // Disable right clicking board
     useEffect(() => {
@@ -79,18 +91,9 @@ const Chess = () => {
         </div>
     );
 
-    // Disable header link during game
-    const isOnlineGame = useSelector((state) => state.main.isOnlineGame);
-    const winner = useSelector((state) => state.chess.winner);
-    const isTie = useSelector((state) => state.chess.isTie);
-    const isHeaderLinkDisabled = useMemo(() => {
-        const isGameOver = winner || isTie;
-        return isOnlineGame && !isGameOver;
-    }, [isOnlineGame, isTie, winner]);
-
     return (
         <div className={styles.container}>
-            <Header isLinkDisabled={isHeaderLinkDisabled} />
+            <Header />
             <div className={styles.spacer} />
             <div
                 className={classNames(styles.boardContainer, {})}
