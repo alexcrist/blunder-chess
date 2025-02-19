@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Peer } from "peerjs";
 
-const SERVER_IP = "beardom.uw.r.appspot.com";
+const SERVER_IP = "server.beardom.net";
 const SERVER_PORT = 443;
 const SERVER_KEY = "beardom";
 const APPLICATION_ID = "blunder-chess";
